@@ -12,7 +12,7 @@
 // hook it up to init so that it gets called good and early
 add_action( 'init', 'pubwp_create_person_type' );
 function pubwp_create_person_type() {
-  register_post_type( 'person',
+  register_post_type( 'pubwp_person',
     array(
       'labels' => array(
         'name' => __( 'People', 'pubwp' ),
@@ -39,7 +39,7 @@ function pubwp_register_person_meta_boxes( $meta_boxes ) {
 		'id'         => 'pubwp_person_info',  // Meta box id
 		// Meta box title - Will appear at the drag and drop handle bar. Required.
         'title'      => __( 'Information about a person, e.g. the name of an author', 'pubwp' ),
-		'post_types' => array('person' ),     // Post types that have this metabox
+		'post_types' => array('pubwp_person' ),     // Post types that have this metabox
 		'context'    => 'normal',             // Where the meta box appear
 		'priority'   => 'high',               // Order of meta box
 		'autosave'   => true,                 // Auto save
@@ -84,7 +84,7 @@ function pubwp_register_person_meta_boxes( $meta_boxes ) {
 // Person custom post type does not support title, so need to display other useful
 // info in admin post list pages. 
 // see https://www.smashingmagazine.com/2013/12/modifying-admin-post-lists-in-wordpress/
-add_filter('manage_person_posts_columns', 'pubwp_person_table_head');
+add_filter('manage_pubwp_person_posts_columns', 'pubwp_person_table_head');
 function pubwp_person_table_head( $defaults ) {
     $prefix = '_pubwp_person_';
     $defaults["{$prefix}given_name"]  = __('Given name', 'pubwp' );
@@ -93,7 +93,7 @@ function pubwp_person_table_head( $defaults ) {
     return $defaults;
 }
 
-add_action( 'manage_person_posts_custom_column', 'pubwp_person_table_content', 10, 2 );
+add_action( 'manage_pubwp_person_posts_custom_column', 'pubwp_person_table_content', 10, 2 );
 function pubwp_person_table_content( $column_name, $post_id ) {
 	$prefix = '_pubwp_person_';  // prefix of meta keys keys hidden
     if ( $column_name == "{$prefix}given_name" ) {
@@ -123,9 +123,9 @@ function pubwp_print_person_fullname( ) {
 	}
 }
 
-function pubwp_print_url_as_link( ) {
-    if ( rwmb_meta( 'pubwp_url' ) ) {
-         echo sprintf('<link property="url" href="%s" />', rwmb_meta( 'pubwp_person_url' ) );
+function pubwp_print_person_uri_as_link( ) {
+    if ( rwmb_meta( '_pubwp_person_uri' ) ) {
+         echo sprintf('<link property="url" href="%s" />', rwmb_meta( '_pubwp_person_uri' ) );
     } else {
 		echo ' ';
 	}
