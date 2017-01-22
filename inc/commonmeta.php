@@ -22,7 +22,8 @@ function pubwp_register_common_meta_boxes( $meta_boxes ) {
 		// Meta box title - Will appear at the drag and drop handle bar. Required.
         'title'      => __( 'General information', 'pubwp' ),
 		'post_types' => array( 'pubwp_book',  // Post types that have this metabox
-		                       'pubwp_report' ),
+		                       'pubwp_report',
+		                       'pubwp_chapter' ),
 		'context'    => 'normal',             // Where the meta box appear
 		'priority'   => 'high',               // Order of meta box
 		'autosave'   => true,                 // Auto save
