@@ -1,7 +1,7 @@
 <?php
 
 /**
- * create a custom post type for person & register meta boxes for person metadata
+ * create a custom post type for book & register meta boxes for book metadata
  **
  * requires: meta box plugin http://metabox.io/
  *

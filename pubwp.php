@@ -43,5 +43,6 @@ $pubwp_dir = plugin_dir_path( __FILE__ );
 include_once( $pubwp_dir.'inc/personmeta.php' );
 include_once( $pubwp_dir.'inc/organizationmeta.php' );
 include_once( $pubwp_dir.'inc/bookmeta.php' );
+include_once( $pubwp_dir.'inc/reportmeta.php' );
 include_once( $pubwp_dir.'inc/commonmeta.php' );
 

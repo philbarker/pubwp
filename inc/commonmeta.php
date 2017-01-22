@@ -21,7 +21,8 @@ function pubwp_register_common_meta_boxes( $meta_boxes ) {
 		'id'         => 'pubwp_common_info',  // Meta box id
 		// Meta box title - Will appear at the drag and drop handle bar. Required.
         'title'      => __( 'General information', 'pubwp' ),
-		'post_types' => array( 'pubwp_book' ),// Post types that have this metabox
+		'post_types' => array( 'pubwp_book',  // Post types that have this metabox
+		                       'pubwp_report' ),
 		'context'    => 'normal',             // Where the meta box appear
 		'priority'   => 'high',               // Order of meta box
 		'autosave'   => true,                 // Auto save
