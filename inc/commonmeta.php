@@ -23,6 +23,7 @@ function pubwp_register_common_meta_boxes( $meta_boxes ) {
         'title'      => __( 'General information', 'pubwp' ),
 		'post_types' => array( 'pubwp_book',  // Post types that have this metabox
 		                       'pubwp_report',
+		                       'pubwp_presentation',
 		                       'pubwp_chapter' ),
 		'context'    => 'normal',             // Where the meta box appear
 		'priority'   => 'high',               // Order of meta box
