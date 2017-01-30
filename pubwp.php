@@ -5,7 +5,7 @@ Plugin URI: https://github.com/philbarker/pubwp
 Version: 0.0
 Author: Phil Barker
 Author URI: http://people.pjjk.net/phil
-Description: A WordPress plugin to set up custom post types and associated metadata for scholarly publications. Requires the CMB2 plugin to be activated.
+Description: A WordPress plugin to set up custom post types and associated metadata for scholarly publications. Requires the Meta Box plugin to be activated, see https://metabox.io/ .
 License: GPL3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 */
