@@ -7,7 +7,7 @@
  *
  **/
 
-// create a custom post type for reportss & register meta boxes for report metadata
+// create a custom post type for reports & register meta boxes for report metadata
 // see https://codex.wordpress.org/Function_Reference/register_post_type
 // hook it up to init so that it gets called good and early
 
@@ -43,7 +43,7 @@ function pubwp_register_report_meta_boxes( $meta_boxes ) {
 		'id'         => 'pubwp_report_info',  // Meta box id
 		// Meta box title - Will appear at the drag and drop handle bar. Required.
         'title'      => __( 'Report information', 'pubwp' ),
-		'post_types' => array( 'pubwp_Report' ),// Post types that have this metabox
+		'post_types' => array( 'pubwp_report' ),// Post types that have this metabox
 		'context'    => 'normal',             // Where the meta box appear
 		'priority'   => 'low',               // Order of meta box
 		'autosave'   => true,                 // Auto save
