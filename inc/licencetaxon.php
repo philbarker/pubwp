@@ -31,7 +31,7 @@ function pubwp_licence_init() {
 	wp_instert_term ( 'CC:0',        'licences',  
 			array( 'description'=> 'Creative Commons No rights reserved' )
 		);
-	wp_instert_term ( 'CC:BY-SA',    'licences'  
+	wp_instert_term ( 'CC:BY-SA',    'licences',  
 			array( 'description'=> 'Creative Commons Attribution and Share Alike' )
 		);
 	wp_instert_term ( 'CC:BY-NC',    'licences',  
