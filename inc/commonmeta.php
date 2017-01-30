@@ -31,7 +31,19 @@ function pubwp_register_common_meta_boxes( $meta_boxes ) {
 		'autosave'   => true,                 // Auto save
 
 		// List of meta fields
+
 		'fields'     => array(
+			// Author, as post of type Person
+			array(
+				'name'  => __( 'Author Link', 'pubwp' ),
+				'id'    => "{$prefix}author_person",
+				'desc'  => __( 'Link to Person information for author', 'pubwp' ),
+				'type'  => 'post',
+				'post_type'   => 'pubwp_person',
+				'field_type'  => 'select_advanced',
+				'placeholder' => __( 'Select an author', 'pubwp' ),
+				'clone' => true
+			),
 			// date published, as date picker
 			array(
 				'name'       => __( 'Date published', 'pubwp' ),
@@ -46,25 +58,55 @@ function pubwp_register_common_meta_boxes( $meta_boxes ) {
 					'showButtonPanel' => false,
 				)
 			),
-			// Author, as post of type Person
-			array(
-				'name'  => __( 'Author Link', 'pubwp' ),
-				'id'    => "{$prefix}author_person",
-				'desc'  => __( 'Link to Person information for author', 'pubwp' ),
-				'type'  => 'post',
-				'post_type'   => 'pubwp_person',
-				'field_type'  => 'select_advanced',
-				'placeholder' => __( 'Select an author', 'pubwp' ),
-				'clone' => true
-			),		
 			// URI, a text field
 			array(
 				'name'  => __( 'URI', 'pubwp' ),
 				'id'    => "{$prefix}uri",
-				'desc'  => __( 'A URI that identifies the work, e.g. based on a DOI', 'pubwp' ),
+				'desc'  => __( 'A URI that identifies the work', 'pubwp' ),
 				'type'  => 'url',
 				'clone' => true
 			),
+			// DOI, a text field
+			array(
+				'name'  => __( 'Doi', 'pubwp' ),
+				'id'    => "{$prefix}doi",
+				'desc'  => __( 'DOI of the work', 'pubwp' ),
+				'type'  => 'text',
+				'clone' => false
+			),
+			// Abstract, as post of type WYSIWYG
+			array(
+				'name'  => __( 'Abstract', 'pubwp' ),
+				'id'    => "{$prefix}abstract",
+				'desc'  => __( 'Abstract', 'pubwp' ),
+				'type'  => 'WYSIWYG',
+				'clone' => false
+			),
+			// Local copy file upload
+			array(
+				'name'  => __( 'Local copy', 'pubwp' ),
+				'id'    => "{$prefix}local_copy",
+				'desc'  => __( 'Upload a local copy', 'pubwp' ),
+				'type'  => 'file_upload',
+				'clone' => false
+			),
+			// Local copy file version
+			array(
+				'name'  => __( 'Version', 'pubwp' ),
+				'id'    => "{$prefix}local_version",
+				'desc'  => __( 'Version of local copy, e.g. authors final draft', 'pubwp' ),
+				'type'  => 'text',
+				'clone' => false
+			),
+			// Local copy licence
+			array(
+				'name'  => __( 'Licence', 'pubwp' ),
+				'id'    => "{$prefix}local_licence",
+				'desc'  => __( 'Licence of local copy, e.g. CC:BY', 'pubwp' ),
+				'type'  => 'text',
+				'clone' => false
+			),
+	
 			// Peer reviewed, a yes/no check box
 			array(
 				'name'  => __( 'Peer reviewd', 'pubwp' ),
