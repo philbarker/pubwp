@@ -24,7 +24,8 @@ function pubwp_register_common_meta_boxes( $meta_boxes ) {
 		'post_types' => array( 'pubwp_book',  // Post types that have this metabox
 		                       'pubwp_report',
 		                       'pubwp_presentation',
-		                       'pubwp_chapter' ),
+		                       'pubwp_chapter',
+				       'pubwp_paper' ),
 		'context'    => 'normal',             // Where the meta box appear
 		'priority'   => 'high',               // Order of meta box
 		'autosave'   => true,                 // Auto save
