@@ -48,5 +48,6 @@ include_once( $pubwp_dir.'inc/reportmeta.php' );
 include_once( $pubwp_dir.'inc/presentationmeta.php' );
 include_once( $pubwp_dir.'inc/papermeta.php' );
 include_once( $pubwp_dir.'inc/subjecttaxon.php' );
+include_once( $pubwp_dir.'inc/licencetaxon.php' );
 include_once( $pubwp_dir.'inc/commonmeta.php' );
 
