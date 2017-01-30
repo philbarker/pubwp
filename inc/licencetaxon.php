@@ -23,7 +23,7 @@ function pubwp_licence_init() {
 }
 
 add_action( 'activated_plugin', 'pubwp_add_licences', 10, 2 );
-function pubwp_add_licences( 'pubwp', false) {
+function pubwp_add_licences( $plugin, $network_activation ) {
 	//add various essential licences
 	wp_insert_term ( 'CC:BY',       'licences', 
 			array( 'description'=> 'Creative Commons Attribution' )
