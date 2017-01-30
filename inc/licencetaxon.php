@@ -21,32 +21,3 @@ function pubwp_licence_init() {
 		)
 	);
 }
-
-register_activation_hook( __FILE__, 'pubwp_add_licences' );
-function pubwp_add_licences( ) {
-	//add various essential licences
-	wp_insert_term ( 'CC:BY',       'licences', 
-			array( 'description'=> 'Creative Commons Attribution' )
-		);
-	wp_insert_term ( 'CC:0',        'licences',  
-			array( 'description'=> 'Creative Commons No rights reserved' )
-		);
-	wp_insert_term ( 'CC:BY-SA',    'licences',  
-			array( 'description'=> 'Creative Commons Attribution and Share Alike' )
-		);
-	wp_insert_term ( 'CC:BY-NC',    'licences',  
-			array( 'description'=> 'Creative Commons Attribution and No Commercial use' )
-		);
-	wp_insert_term ( 'CC:BY-ND',    'licences',  
-			array( 'description'=> 'Creative Commons Attribution and No Derivatives' )
-		);
-	wp_insert_term ( 'CC:BY-NC-SA', 'licences',  
-			array( 'description'=> 'Creative Commons Attribution, non-commercial and no derivatives' )
-		);
-	wp_insert_term ( 'CC:BY-NC-ND', 'licences',  
-			array( 'description'=> 'Creative Commons Attribution, non-commercial and share alike' )
-		);
-	wp_insert_term ( 'Reserved',    'licences',  
-			array( 'description'=> 'All rights reserved' )
-		);
-}
