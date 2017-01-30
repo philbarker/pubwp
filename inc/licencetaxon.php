@@ -26,27 +26,27 @@ add_action( 'after_setup_theme', 'pubwp_add_licences' );
 function pubwp_licence_init() {
 	//add various essential licences
 	wp_instert_term ( 'CC:BY',       'licences', 
-			array( 'description'=> 'Creative Commons Attribution',
+			array( 'description'=> 'Creative Commons Attribution' )
 		);
 	wp_instert_term ( 'CC:0',        'licences',  
-			array( 'description'=> 'Creative Commons No rights reserved',
+			array( 'description'=> 'Creative Commons No rights reserved' )
 		);
 	wp_instert_term ( 'CC:BY-SA',    'licences'  
-			array( 'description'=> 'Creative Commons Attribution and Share Alike',
+			array( 'description'=> 'Creative Commons Attribution and Share Alike' )
 		);
 	wp_instert_term ( 'CC:BY-NC',    'licences',  
-			array( 'description'=> 'Creative Commons Attribution and No Commercial use',
+			array( 'description'=> 'Creative Commons Attribution and No Commercial use' )
 		);
 	wp_instert_term ( 'CC:BY-ND',    'licences',  
-			array( 'description'=> 'Creative Commons Attribution and No Derivatives',
+			array( 'description'=> 'Creative Commons Attribution and No Derivatives' )
 		);
 	wp_instert_term ( 'CC:BY-NC-SA', 'licences',  
-			array( 'description'=> 'Creative Commons Attribution, non-commercial and no derivatives',
+			array( 'description'=> 'Creative Commons Attribution, non-commercial and no derivatives' )
 		);
 	wp_instert_term ( 'CC:BY-NC-ND', 'licences',  
-			array( 'description'=> 'Creative Commons Attribution, non-commercial and share alike',
+			array( 'description'=> 'Creative Commons Attribution, non-commercial and share alike' )
 		);
 	wp_instert_term ( 'Reserved',    'licences',  
-			array( 'description'=> 'All rights reserved',
+			array( 'description'=> 'All rights reserved' )
 		);
 }
