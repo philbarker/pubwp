@@ -90,7 +90,7 @@ function pubwp_modify_person_title( $data ) {
 	$display_name = '';
 	$given_name = '';
 	$family_name = '';
-	if (('pubwp_person' == $data['post_type'])  || ('pubwp_person' == $_POST['post_type'])) {
+	if ( isset($_POST['post_type'])  && ('pubwp_person' == $_POST['post_type'])) {
 		if (isset($_POST["{$prefix}display_name"]))
 			$display_name = $_POST["{$prefix}display_name"];
 		if (isset($_POST["{$prefix}given_name"]))

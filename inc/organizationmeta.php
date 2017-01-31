@@ -76,11 +76,16 @@ function pubwp_register_organization_meta_boxes( $meta_boxes ) {
 
 // Organization custom post type does not support title, but do need a title to display
 // in selection boxes when linking to an organization from another post.
-add_filter( 'wp_insert_post_data', 'pubwp_modify_organization_title', 10, 1 );
+add_filter( 'wp_insert_post_data', 'pubwp_modify_organization_title', 99, 1 );
 function pubwp_modify_organization_title( $data ) {
 	$prefix = '_pubwp_organization_';
-	if ('pubwp_organization' == $data['post_type'] && rwmb_meta( "{$prefix}name" ) ) 
-		$data['post_title'] = rwmb_meta( "{$prefix}name" );
+	if ( isset($_POST['post_type'])  && ('pubwp_organization' == $_POST['post_type']) ) {
+		if (isset($_POST["{$prefix}name"])) {
+			$data['post_title'] = $_POST["{$prefix}name"];
+		} else {
+			$data['post_title'] = 'Any mouse organization';
+		}
+	}
 	return $data;
 }
 
