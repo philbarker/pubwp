@@ -81,6 +81,33 @@ function pubwp_register_person_meta_boxes( $meta_boxes ) {
 	return $meta_boxes;
 }
 
+
+// Person custom post type does not support title, but do need a title to display
+// in selection boxes when linking to an person from another post.
+add_filter( 'wp_insert_post_data', 'pubwp_modify_person_title', 99, 1 );
+function pubwp_modify_person_title( $data ) {
+	$prefix = '_pubwp_person_';
+	$display_name = '';
+	$given_name = '';
+	$family_name = '';
+	if (('pubwp_person' == $data['post_type'])  || ('pubwp_person' == $_POST['post_type'])) {
+		if (isset($_POST["{$prefix}display_name"]))
+			$display_name = $_POST["{$prefix}display_name"];
+		if (isset($_POST["{$prefix}given_name"]))
+			$given_name = $_POST["{$prefix}given_name"];
+		if (isset($_POST["{$prefix}family_name"]))
+			$family_name = $_POST["{$prefix}family_name"];
+		if ($display_name != '') {
+			$data['post_title'] = $display_name;
+		} elseif (($given_name != '') ||  ($family_name != '')) {
+			$data['post_title'] = $given_name.' '.$family_name;
+		} else {
+			$data['post_title'] = 'Any mouse';
+		}
+	}
+	return $data;
+}
+
 // Person custom post type does not support title, so need to display other useful
 // info in admin post list pages. 
 // see https://www.smashingmagazine.com/2013/12/modifying-admin-post-lists-in-wordpress/
