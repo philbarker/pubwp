@@ -124,3 +124,27 @@ function pubwp_register_common_meta_boxes( $meta_boxes ) {
 	return $meta_boxes;
 }
 
+function pubwp_print_authors( ) {
+	$prefix = '_pubwp_common_';
+	if ( empty( rwmb_meta("{$prefix}author_person", 'type = post') ) ) {
+		//not much we can do with no authors -- shouldn't happen!
+		echo('what no authors'); //for debug only
+		return;
+	} else {
+		$authors = rwmb_meta("{$prefix}author_person", 'type = post');
+		$len = count($authors);
+		$i = 0;
+		foreach ($authors as $author) {
+			$i = $i+1;
+			echo '<span property="author" typeof="Person">';
+			pubwp_print_person_fullname( $author );
+			echo '</span>';
+			if ($i < ($len - 1) ) {
+				echo ', ';
+			} elseif ($i == ($len - 1) ) {
+				echo ' and ';
+			}
+		}
+	}
+}
+

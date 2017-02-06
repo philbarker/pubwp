@@ -134,19 +134,24 @@ function pubwp_person_table_content( $column_name, $post_id ) {
     }
 }
 
-function pubwp_print_person_fullname( ) {
+function pubwp_print_person_fullname( $id ) {
 // Prints a persons full name using display name is present, or GivenName FamilyName if not.
 // Wraps name in schema.org property terms name, givenName, familyName
     $prefix = '_pubwp_person_';
-    if ( rwmb_meta( "{$prefix}display_name" ) ) {
-		echo '<span property ="name">'.rwmb_meta( "{$prefix}display_name" ).'</span>';
-	} elseif ( rwmb_meta( "{$prefix}family_name" ) || rwmb_meta( "{$prefix}given_name" ) ) {
+    $args = array();
+    $family_name = esc_html( rwmb_meta( "{$prefix}family_name", $args, $post_id = $id) );
+    $given_name = esc_html( rwmb_meta( "{$prefix}given_name", $args, $post_id = $id) );
+    $display_name = esc_html( rwmb_meta( "{$prefix}display_name", $args, $post_id = $id) );
+
+    if ( $display_name ) {
+		echo '<span property ="name">'.$display_name.'</span>';
+	} elseif ( $family_name || $given_name ) {
 		echo '<span property ="name">';
-		echo '<span property ="givenName">'.rwmb_meta( "{$prefix}given_name" ).'</span>, ';
-		echo '<span property ="familyName">'.rwmb_meta( "{$prefix}family_name" ).'</span>, ';
-		echo '<\span>';
+		echo '<span property ="givenName">'.$given_name.'</span> ';
+		echo '<span property ="familyName">'.$family_name.'</span>';
+		echo '</span>';
     } else {
-		echo ' ';
+		echo 'anon';
 	}
 }
 
