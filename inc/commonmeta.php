@@ -128,7 +128,7 @@ function pubwp_print_authors( ) {
 	$prefix = '_pubwp_common_';
 	if ( empty( rwmb_meta("{$prefix}author_person", 'type = post') ) ) {
 		//not much we can do with no authors -- shouldn't happen!
-		echo('what no authors'); //for debug only
+		echo('What, no authors?'); //for debug only
 		return;
 	} else {
 		$authors = rwmb_meta("{$prefix}author_person", 'type = post');
@@ -148,3 +148,15 @@ function pubwp_print_authors( ) {
 	}
 }
 
+function pubwp_print_date_published( ) {
+	$prefix = '_pubwp_common_';
+	if ( empty( rwmb_meta("{$prefix}date_published", 'type = date') ) ) {
+		//not much we can do with no authors -- shouldn't happen!
+		echo('What, no publication date?'); //for debug only
+		return;
+	} else {
+		$publication_date = rwmb_meta("{$prefix}date_published", 'type = date');
+		$publication_year = explode( '-', $publication_date )[0];
+		echo "<time datetime='{$publication_date}' property='datePublished'>{$publication_year}</time>";
+	}
+}
