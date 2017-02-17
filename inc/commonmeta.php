@@ -125,7 +125,7 @@ function pubwp_register_common_meta_boxes( $meta_boxes ) {
 }
 
 function pubwp_print_authors( ) {
-	$id = '_pubwp_common_author_person'; # field id of abstract
+	$id = '_pubwp_common_author_person'; # field id of authors
 	$type = 'type = post';               # type of field
 	if ( empty( rwmb_meta($id, $type) ) ) {
 		//not much we can do with no authors -- shouldn't happen!
@@ -151,7 +151,7 @@ function pubwp_print_authors( ) {
 }
 
 function pubwp_print_date_published( ) {
-	$id = '_pubwp_common_date_published'; # field id of abstract
+	$id = '_pubwp_common_date_published'; # field id of pub date
 	$type = 'type = date';                # type of field
 	if ( empty( rwmb_meta($id, $type) ) ) {
 		//not much we can do with no authors -- shouldn't happen!
@@ -166,7 +166,7 @@ function pubwp_print_date_published( ) {
 }
 
 function pubwp_print_doi( ) {
-	$id = '_pubwp_common_doi';  # field id of abstract
+	$id = '_pubwp_common_doi';  # field id of doi
 	$type = 'type = url';       # type of field
 	if ( empty( rwmb_meta($id, $type) ) ) {
 		return; # no Doi, no problem
@@ -177,7 +177,7 @@ function pubwp_print_doi( ) {
 }
 
 function pubwp_print_uri( $br=False ) {
-	$id = '_pubwp_common_uri'; # field id of abstract
+	$id = '_pubwp_common_uri'; # field id of uri
 	$type = 'type = url';       # type of field
 	if ( empty( rwmb_meta($id, $type) ) ) {
 		return; # no URL, no problem (local copy only)
@@ -202,3 +202,29 @@ function pubwp_print_abstract( ) {
 	}
 }
 
+function pubwp_print_local_info( ) {
+	$lc_file_id = '_pubwp_common_local_copy';       # field id of local copy
+	$lc_file_type = 'type = file_upload';           # type of field
+	$lc_licence_id = '_pubwp_common_local_licence'; # field id of licence
+	$lc_licence_type = 'type = text';               # type of field
+	$lc_version_id = '_pubwp_common_local_version'; # field id of version
+	$lc_version_type = 'type = text';               # type of field
+	if ( empty( rwmb_meta( $lc_file_id, $lc_file_type) ) ) {
+		echo( 'No local copy available' );
+		return; # No local copy, no problem;
+	} else {
+		$files = rwmb_meta( $lc_file_id, $lc_file_type);
+		foreach ($files as $file) {
+			if ( !empty( $file['title'] ) ) {
+				$file_name = esc_html( $file['title'] );
+			} elseif  ( !empty( $file['name'] ) ){
+				$file_name = esc_html( $file['name'] );
+			} else {
+				$file_name = 'local copy';
+			}
+			$file_url = esc_url( $file['url']);
+			echo "<a href='{$file_url}'>{$file_name}</a>";
+		}
+		
+	}
+}
