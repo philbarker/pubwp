@@ -125,15 +125,17 @@ function pubwp_register_common_meta_boxes( $meta_boxes ) {
 }
 
 function pubwp_print_authors( ) {
-	$prefix = '_pubwp_common_';
-	if ( empty( rwmb_meta("{$prefix}author_person", 'type = post') ) ) {
+	$id = '_pubwp_common_author_person'; # field id of abstract
+	$type = 'type = post';               # type of field
+	if ( empty( rwmb_meta($id, $type) ) ) {
 		//not much we can do with no authors -- shouldn't happen!
 		echo('What, no authors?'); //for debug only
 		return;
 	} else {
-		$authors = rwmb_meta("{$prefix}author_person", 'type = post');
+		$authors = rwmb_meta($id, $type);
 		$len = count($authors);
 		$i = 0;
+		echo "By: ";
 		foreach ($authors as $author) {
 			$i = $i+1;
 			echo '<span property="author">';
@@ -149,13 +151,14 @@ function pubwp_print_authors( ) {
 }
 
 function pubwp_print_date_published( ) {
-	$prefix = '_pubwp_common_';
-	if ( empty( rwmb_meta("{$prefix}date_published", 'type = date') ) ) {
+	$id = '_pubwp_common_date_published'; # field id of abstract
+	$type = 'type = date';                # type of field
+	if ( empty( rwmb_meta($id, $type) ) ) {
 		//not much we can do with no authors -- shouldn't happen!
 		echo('What, no publication date?'); //for debug only
 		return;
 	} else {
-		$publication_date = rwmb_meta("{$prefix}date_published", 'type = date');
+		$publication_date = rwmb_meta($id, $type);
 		$publication_year = esc_html( explode( '-', $publication_date )[0] );
 		$publication_date = esc_html( $publication_date );
 		echo "<time datetime='{$publication_date}' property='datePublished'>{$publication_year}</time>";
@@ -163,23 +166,27 @@ function pubwp_print_date_published( ) {
 }
 
 function pubwp_print_doi( ) {
-	$prefix = '_pubwp_common_';
-	if ( empty( rwmb_meta("{$prefix}doi", 'type = text') ) ) {
+	$id = '_pubwp_common_doi';  # field id of abstract
+	$type = 'type = url';       # type of field
+	if ( empty( rwmb_meta($id, $type) ) ) {
 		return; # no Doi, no problem
 	} else {
-		$doi = esc_attr( rwmb_meta( "{$prefix}doi", 'type = text' ) );
+		$doi = esc_attr( rwmb_meta($id, $type) );
 		echo "DOI: <a property='sameAs' href='http://dx.doi.org/{$doi}'>{$doi}</a>";
 	}
 }
 
-function pubwp_print_uri( ) {
-	$prefix = '_pubwp_common_';
-	if ( empty( rwmb_meta("{$prefix}uri", 'type = url') ) ) {
+function pubwp_print_uri( $br=False ) {
+	$id = '_pubwp_common_uri'; # field id of abstract
+	$type = 'type = url';       # type of field
+	if ( empty( rwmb_meta($id, $type) ) ) {
 		return; # no URL, no problem (local copy only)
 	} else {
-		$uri_arr = rwmb_meta( "{$prefix}uri", 'type = url' );
+		$uri_arr = rwmb_meta( $id, $type );
 		foreach ($uri_arr as $uri) {
 			echo "URL: <a property='url' href='{$uri}'>{$uri}</a> ";
+			if ($br)
+				echo "<br />";
 		}
 	}
 }

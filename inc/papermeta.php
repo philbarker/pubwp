@@ -109,7 +109,7 @@ function pubwp_print_journal_issue_details( ) {
 		$ep = rwmb_meta("{$prefix}journal_page_to", 'type = number');
 		
 	if ($ja) {
-		echo "<span property='isPartOf' typeof='PublicationIssue'>
+		echo "Ref: <span property='isPartOf' typeof='PublicationIssue'>
 				<span property='name'>{$ja}</span>, ";
 		if ($vl)
 			echo "vol. <span property='volumeNumber'>{$vl}</span> ";
