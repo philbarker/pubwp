@@ -160,3 +160,13 @@ function pubwp_print_date_published( ) {
 		echo "<time datetime='{$publication_date}' property='datePublished'>{$publication_year}</time>";
 	}
 }
+
+function pubwp_print_doi( ) {
+	$prefix = '_pubwp_common_';
+	if ( empty( rwmb_meta("{$prefix}doi", 'type = date') ) ) {
+		return; # no Doi, no problem
+	} else {
+		$doi = esc_attr( rwmb_meta( "{$prefix}doi", 'type = text' ) );
+		echo "DOI: <a property='sameAs' href='http://dx.doi.org/{$doi}'>{$doi}</a>";
+	}
+}
