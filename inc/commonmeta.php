@@ -25,7 +25,7 @@ function pubwp_register_common_meta_boxes( $meta_boxes ) {
 		                       'pubwp_report',
 		                       'pubwp_presentation',
 		                       'pubwp_chapter',
-				       'pubwp_paper' ),
+				               'pubwp_paper' ),
 		'context'    => 'normal',             // Where the meta box appear
 		'priority'   => 'high',               // Order of meta box
 		'autosave'   => true,                 // Auto save
@@ -172,7 +172,7 @@ function pubwp_print_doi( ) {
 	}
 }
 
-function pubwp_print_url( ) {
+function pubwp_print_uri( ) {
 	$prefix = '_pubwp_common_';
 	if ( empty( rwmb_meta("{$prefix}uri", 'type = url') ) ) {
 		return; # no URL, no problem (local copy only)
@@ -183,3 +183,15 @@ function pubwp_print_url( ) {
 		}
 	}
 }
+
+function pubwp_print_abstract( ) {
+	$id = '_pubwp_common_abstract'; # field id of abstract
+	$type = 'type = WYSIWYG';       # type of field
+	if ( empty( rwmb_meta( $id, $type ) ) ) {
+		echo "Abstract unavailable";
+		return;
+	} else {
+		echo "<div property='description'>".rwmb_meta( $id, $type )."</div>";
+	}
+}
+
