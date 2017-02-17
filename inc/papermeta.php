@@ -91,9 +91,11 @@ function pubwp_register_paper_meta_boxes( $meta_boxes ) {
  **/
 function pubwp_print_journal_issue_details( ) {
 	$prefix = '_pubwp_paper_';
-	$ja = False;
-	$is = False;
-	$vl = False;
+	$ja = False; # Journal name
+	$is = False; # Issue number 
+	$vl = False; # Volume number
+	$sp = False; # Start page
+	$ep = False; # End page
 	
 	if ( ! empty( rwmb_meta("{$prefix}journal_title", 'type = text') ) ) 
 		$ja = rwmb_meta("{$prefix}journal_title", 'type = text');
@@ -101,6 +103,10 @@ function pubwp_print_journal_issue_details( ) {
 		$is = rwmb_meta("{$prefix}journal_issue", 'type = text');
 	if ( ! empty( rwmb_meta("{$prefix}journal_volumen", 'type = number') ) ) 
 		$vl = rwmb_meta("{$prefix}journal_volumen", 'type = number');
+	if ( ! empty( rwmb_meta("{$prefix}journal_page_from", 'type = number') ) ) 
+		$sp = rwmb_meta("{$prefix}journal_page_from", 'type = number');
+	if ( ! empty( rwmb_meta("{$prefix}journal_page_to", 'type = number') ) ) 
+		$ep = rwmb_meta("{$prefix}journal_page_to", 'type = number');
 		
 	if ($ja) {
 		echo "<span property='isPartOf' typeof='PublicationIssue'>
@@ -109,7 +115,13 @@ function pubwp_print_journal_issue_details( ) {
 			echo "vol. <span property='volumeNumber'>{$vl}</span> ";
 		if ($is)
 			echo "iss. <span property='issueNumber'>{$is}</span>";
-		echo "</span>";
+		if ($sp && $ep) {
+			echo " pp. <span property='pageStart'>{$sp}</span>
+			      - <span property='pageEnd'>{$ep}</span>";
+		} elseif ($sp) {
+			echo " p. <span property='pageStart'>{$sp}</span>";
+		}
+		echo ".</span>";
 	} else {
 		//not much we can do with no journal name -- shouldn't happen!
 		echo('What, no journal data?'); //for debug only
