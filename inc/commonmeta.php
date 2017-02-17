@@ -156,7 +156,8 @@ function pubwp_print_date_published( ) {
 		return;
 	} else {
 		$publication_date = rwmb_meta("{$prefix}date_published", 'type = date');
-		$publication_year = explode( '-', $publication_date )[0];
+		$publication_year = esc_html( explode( '-', $publication_date )[0] );
+		$publication_date = esc_html( $publication_date );
 		echo "<time datetime='{$publication_date}' property='datePublished'>{$publication_year}</time>";
 	}
 }
