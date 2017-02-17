@@ -164,10 +164,22 @@ function pubwp_print_date_published( ) {
 
 function pubwp_print_doi( ) {
 	$prefix = '_pubwp_common_';
-	if ( empty( rwmb_meta("{$prefix}doi", 'type = date') ) ) {
+	if ( empty( rwmb_meta("{$prefix}doi", 'type = text') ) ) {
 		return; # no Doi, no problem
 	} else {
 		$doi = esc_attr( rwmb_meta( "{$prefix}doi", 'type = text' ) );
 		echo "DOI: <a property='sameAs' href='http://dx.doi.org/{$doi}'>{$doi}</a>";
+	}
+}
+
+function pubwp_print_url( ) {
+	$prefix = '_pubwp_common_';
+	if ( empty( rwmb_meta("{$prefix}uri", 'type = url') ) ) {
+		return; # no URL, no problem (local copy only)
+	} else {
+		$uri_arr = rwmb_meta( "{$prefix}uri", 'type = url' );
+		foreach ($uri_arr as $uri) {
+			echo "URL: <a property='url' href='{$uri}'>{$uri}</a> ";
+		}
 	}
 }
