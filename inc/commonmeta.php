@@ -136,7 +136,7 @@ function pubwp_print_authors( ) {
 		$i = 0;
 		foreach ($authors as $author) {
 			$i = $i+1;
-			echo '<span property="author" typeof="Person">';
+			echo '<span property="author">';
 			pubwp_print_person_fullname( $author );
 			echo '</span>';
 			if ($i < ($len - 1) ) {

@@ -145,13 +145,14 @@ function pubwp_print_person_fullname( $id ) {
 	$url_arr = rwmb_meta( "{$prefix}uri", $args, $post_id = $id );
 
     if ( $display_name ) {
-		echo '<span property ="name">'.$display_name.'</span>';
+		echo '<span typeof="Person"><span property ="name">'.$display_name.'</span>';
 		if ( $url_arr ) {
 			foreach ($url_arr as $url)
 				echo '<link property ="url" href="'.$url.'" />';
 		}
+		echo '</span>';
 	} elseif ( $family_name || $given_name ) {
-		echo '<span property ="name">';
+		echo '<span typeof="Person"><span property ="name">';
 		echo '<span property ="givenName">'.$given_name.'</span> ';
 		echo '<span property ="familyName">'.$family_name.'</span>';
 		echo '</span>';
@@ -159,6 +160,7 @@ function pubwp_print_person_fullname( $id ) {
 			foreach ($url_arr as $url)
 				echo '<link property ="url" href="'.$url.'" />';
 		}
+		echo '</span>';
     } else {
 		echo 'anon';
 	}
