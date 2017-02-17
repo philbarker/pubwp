@@ -142,24 +142,26 @@ function pubwp_print_person_fullname( $id ) {
     $family_name = esc_html( rwmb_meta( "{$prefix}family_name", $args, $post_id = $id) );
     $given_name = esc_html( rwmb_meta( "{$prefix}given_name", $args, $post_id = $id) );
     $display_name = esc_html( rwmb_meta( "{$prefix}display_name", $args, $post_id = $id) );
+	$url_arr = rwmb_meta( "{$prefix}uri", $args, $post_id = $id );
 
     if ( $display_name ) {
 		echo '<span property ="name">'.$display_name.'</span>';
+		if ( $url_arr ) {
+			foreach ($url_arr as $url)
+				echo '<link property ="url" href="'.$url.'" />';
+		}
 	} elseif ( $family_name || $given_name ) {
 		echo '<span property ="name">';
 		echo '<span property ="givenName">'.$given_name.'</span> ';
 		echo '<span property ="familyName">'.$family_name.'</span>';
 		echo '</span>';
+		if ( $url_arr ) {
+			foreach ($url_arr as $url)
+				echo '<link property ="url" href="'.$url.'" />';
+		}
     } else {
 		echo 'anon';
 	}
 }
 
-function pubwp_print_person_uri_as_link( ) {
-    if ( rwmb_meta( '_pubwp_person_uri' ) ) {
-         echo sprintf('<link property="url" href="%s" />', rwmb_meta( '_pubwp_person_uri' ) );
-    } else {
-		echo ' ';
-	}
-}
 
