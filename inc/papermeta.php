@@ -85,3 +85,34 @@ function pubwp_register_paper_meta_boxes( $meta_boxes ) {
 	return $meta_boxes;
 }
 
+
+/***
+ * prints the details of a journal issue that a paper is part of
+ **/
+function pubwp_print_journal_issue_details( ) {
+	$prefix = '_pubwp_paper_';
+	$ja = False;
+	$is = False;
+	$vl = False;
+	
+	if ( ! empty( rwmb_meta("{$prefix}journal_title", 'type = text') ) ) 
+		$ja = rwmb_meta("{$prefix}journal_title", 'type = text');
+	if ( ! empty( rwmb_meta("{$prefix}journal_issue", 'type = text') ) ) 
+		$is = rwmb_meta("{$prefix}journal_issue", 'type = text');
+	if ( ! empty( rwmb_meta("{$prefix}journal_volumen", 'type = number') ) ) 
+		$vl = rwmb_meta("{$prefix}journal_volumen", 'type = number');
+		
+	if ($ja) {
+		echo "<span property='isPartOf' typeof='PublicationIssue'>
+				<span property='name'>{$ja}</span>, ";
+		if ($vl)
+			echo "vol. <span property='volumeNumber'>{$vl}</span> ";
+		if ($is)
+			echo "iss. <span property='issueNumber'>{$is}</span>";
+		echo "</span>";
+	} else {
+		//not much we can do with no journal name -- shouldn't happen!
+		echo('What, no journal data?'); //for debug only
+	}
+}
+
