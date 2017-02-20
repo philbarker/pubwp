@@ -215,6 +215,7 @@ function pubwp_print_local_info( ) {
 	} else {
 		$files = rwmb_meta( $lc_file_id, $lc_file_type);
 		foreach ($files as $file) {
+			echo"<p property='workExample' typeOf='CreativeWork'>Local copy: ";
 			if ( !empty( $file['title'] ) ) {
 				$file_name = esc_html( $file['title'] );
 			} elseif  ( !empty( $file['name'] ) ){
@@ -223,8 +224,27 @@ function pubwp_print_local_info( ) {
 				$file_name = 'local copy';
 			}
 			$file_url = esc_url( $file['url']);
-			echo "<a href='{$file_url}'>{$file_name}</a>";
+			echo "<a href='{$file_url}'>{$file_name}</a><br>";
+			# currently not efficient to calc following info for each file as it is same
+			# however looking forward need some way of giving diffent versions & licences
+			if ( ! empty( rwmb_meta( $lc_licence_id, $lc_licence_type) ) ) {
+				$licence = esc_html( rwmb_meta( $lc_licence_id, $lc_licence_type) );
+				echo "licence: <span property='license'>{$licence}</span><br>";
+			}
+			if ( ! empty( rwmb_meta( $lc_version_id, $lc_version_type) ) ) {
+				$version = esc_html( rwmb_meta( $lc_version_id, $lc_version_type) );
+				echo "version: <span property='version'>{$version}</span><br>";
+			}
+			echo "</p>";
 		}
-		
+	}
+}
+
+function pubwp_print_peer_reviewed( ) {
+	$id = '_pubwp_common_peer_reviewed'; # field id of peer reviewed
+	$type = 'type = radio';       # type of field	
+	if ( ! empty( rwmb_meta( $id, $type) ) ) {
+		$peer_reviewed = rwmb_meta( $id, $type);
+		echo "Peer reviewed? {$peer_reviewed}.";
 	}
 }
