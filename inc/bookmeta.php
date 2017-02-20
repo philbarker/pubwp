@@ -71,3 +71,24 @@ function pubwp_register_book_meta_boxes( $meta_boxes ) {
 	return $meta_boxes;
 }
 
+function pubwp_print_isbn( $br=False ) {
+	$id = '_pubwp_book_isbn'; # field id of ISBN
+	$type = 'type = text';                # type of field
+	if ( empty( rwmb_meta($id, $type) ) ) {
+		return; # no isbn, no problem
+	} else {
+		$isbns = rwmb_meta($id, $type);
+		foreach ($isbns as $isbn) {
+			$isbn = esc_html( $isbn );
+			echo "ISBN: <span property='isbn'>{$isbn}</span>";
+			if ($br)
+				echo '</br>';
+		}
+	}
+
+	return;
+}
+
+function pubwp_print_publisher( ) {
+	return;
+}
