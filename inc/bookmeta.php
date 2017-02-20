@@ -73,7 +73,7 @@ function pubwp_register_book_meta_boxes( $meta_boxes ) {
 
 function pubwp_print_isbn( $br=False ) {
 	$id = '_pubwp_book_isbn'; # field id of ISBN
-	$type = 'type = text';                # type of field
+	$type = 'type = text';       # type of field
 	if ( empty( rwmb_meta($id, $type) ) ) {
 		return; # no isbn, no problem
 	} else {
@@ -85,10 +85,17 @@ function pubwp_print_isbn( $br=False ) {
 				echo '</br>';
 		}
 	}
-
-	return;
 }
 
 function pubwp_print_publisher( ) {
-	return;
-}
+	$id = '_pubwp_book_publisher'; # field id of authors
+	$type = 'type = post';               # type of field
+	if ( empty( rwmb_meta($id, $type) ) ) {
+		return; # no publisher info, no problem
+	} else {
+		$publisher = rwmb_meta($id, $type);
+		echo "Published by: <span property='publisher' typeof='Organization'>";
+	 	pubwp_print_organization_info( $publisher );		
+		echo "</span>";
+	}
+ }

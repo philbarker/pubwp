@@ -107,21 +107,25 @@ function pubwp_organization_table_content( $column_name, $post_id ) {
     }
 }
 
-function pubwp_print_organization_fullname( ) {
-// Prints a organizations full name using display name is present, or GivenName FamilyName if not.
-// Wraps name in schema.org property terms name, givenName, familyName
-    $prefix = '_pubwp_organization_';
-    if ( rwmb_meta( "{$prefix}name" ) ) {
-		echo '<span property ="name">'.rwmb_meta( "{$prefix}name" ).'</span>';
-    } else {
-		echo ' ';
+function pubwp_print_organization_info( $id ) {
+// Prints information about organization, wrapped up in RDFa typeof schema:Organization
+	$prefix = '_pubwp_organization_';
+	$args = array();
+	$name = esc_html( rwmb_meta( "{$prefix}name", $args, $post_id = $id ) );
+	$location_arr = rwmb_meta( "{$prefix}location", $args, $post_id = $id );
+	$url_arr = rwmb_meta( "{$prefix}uri", $args, $post_id = $id );
+	if (! $name ) {
+		return; # no publisher info, no problem
+	} else {
+		echo "<span property ='name'>{$name}</span>, ";
+		foreach ($url_arr as $url) {
+			$url = esc_url( $url );
+			echo "<link property='url' href='{$url}' />";
+		}
+		foreach ($location_arr as $location) {
+			$location = esc_html( $location );
+			echo "<span property = 'location' typeof='Place'><span property='name'>{$location}</span></span> ";
+		}
 	}
 }
 
-function pubwp_print_organization_uri_as_link( ) {
-    if ( rwmb_meta( '_pubwp_organization_uri' ) ) {
-         echo sprintf('<link property="url" href="%s" />', rwmb_meta( '_pubwp_organization_uri' ) );
-    } else {
-		echo ' ';
-	}
-}
