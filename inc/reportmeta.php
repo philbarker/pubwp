@@ -78,3 +78,38 @@ function pubwp_register_report_meta_boxes( $meta_boxes ) {
 	return $meta_boxes;
 }
 
+function pubwp_print_report_series( ) {
+	$id = '_pubwp_report_series'; # field id of series name
+	$type = 'type = text';       # type of field
+	if ( empty( rwmb_meta( $id, $type ) ) ) {
+		return; # no code, no problem.
+	} else {
+		echo rwmb_meta( $id, $type );
+	}
+}
+
+function pubwp_print_report_publisher( ) {
+	$id = '_pubwp_report_publisher'; # field id of authors
+	$type = 'type = post';               # type of field
+	if ( empty( rwmb_meta($id, $type) ) ) {
+		return; # no publisher info, no problem
+	} else {
+		$publisher = rwmb_meta($id, $type);
+		echo "published by: <span property='publisher' typeof='Organization'>";
+	 	pubwp_print_organization_info( $publisher );		
+		echo "</span>";
+	}
+
+}
+
+function pubwp_print_report_code( ) {
+	$id = '_pubwp_report_code'; # field id of series name
+	$type = 'type = text';       # type of field
+	if ( empty( rwmb_meta( $id, $type ) ) ) {
+		return; # no code, no problem.
+	} else {
+		echo rwmb_meta( $id, $type );
+	}
+}
+
+

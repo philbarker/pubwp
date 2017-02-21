@@ -117,14 +117,14 @@ function pubwp_print_organization_info( $id ) {
 	if (! $name ) {
 		return; # no publisher info, no problem
 	} else {
-		echo "<span property ='name'>{$name}</span>, ";
+		echo "<span property ='name'>{$name}</span>";
 		foreach ($url_arr as $url) {
 			$url = esc_url( $url );
 			echo "<link property='url' href='{$url}' />";
 		}
 		foreach ($location_arr as $location) {
 			$location = esc_html( $location );
-			echo "<span property = 'location' typeof='Place'><span property='name'>{$location}</span></span> ";
+			echo ", <span property = 'location' typeof='Place'><span property='name'>{$location}</span></span> ";
 		}
 	}
 }
