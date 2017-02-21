@@ -89,7 +89,7 @@ function pubwp_register_chapter_meta_boxes( $meta_boxes ) {
 				'id'    => "{$prefix}doi",
 				'desc'  => __( 'DOI for the book (you may repeat for different formats but cannot specify which goes with which format, sorry)', 'pubwp' ),
 				'type'  => 'text',
-				'clone' => true,
+				'clone' => false,
 			),
 			array(
 				'name'  => __( 'URL', 'pubwp' ),
@@ -103,3 +103,93 @@ function pubwp_register_chapter_meta_boxes( $meta_boxes ) {
 	return $meta_boxes;
 }
 
+function pubwp_print_bookchap_title( ) {
+	$id = '_pubwp_chapter_title'; # field id of abstract
+	$type = 'type = text';       # type of field
+	if ( empty( rwmb_meta( $id, $type ) ) ) {
+		echo "untitled";
+		return;
+	} else {
+		echo "<span property='name'>".rwmb_meta( $id, $type )."</span>";
+	}
+}
+
+function pubwp_print_bookchap_editors( ) {
+	$id = '_pubwp_chapter_editor_person'; # field id of authors
+	$type = 'type = post';               # type of field
+	if ( empty( rwmb_meta($id, $type) ) ) {
+		//not much we can do with no authors -- shouldn't happen!
+		echo('What, no editors?'); //for debug only
+		return;
+	} else {
+		$editors = rwmb_meta($id, $type);
+		$len = count($editors);
+		$i = 0;
+		foreach ($editors as $editor) {
+			$i = $i+1;
+			echo '<span property="creator" typeof="person">';
+			pubwp_print_person_fullname( $editor );
+			echo '</span>';
+			if ($i < ($len - 1) ) {
+				echo ', ';
+			} elseif ($i == ($len - 1) ) {
+				echo ' and ';
+			}
+		}
+	}
+}
+
+function pubwp_print_bookchap_publisher( ) {
+	$id = '_pubwp_chapter_publisher'; # field id of authors
+	$type = 'type = post';               # type of field
+	if ( empty( rwmb_meta($id, $type) ) ) {
+		return; # no publisher info, no problem
+	} else {
+		$publisher = rwmb_meta($id, $type);
+		echo "Published by: <span property='publisher' typeof='Organization'>";
+	 	pubwp_print_organization_info( $publisher );
+		echo "</span>";
+	}
+ }
+ 
+function pubwp_print_bookchap_isbn( $br=False ) {
+	$id = '_pubwp_chapter_isbn'; # field id of ISBN
+	$type = 'type = text';       # type of field
+	if ( empty( rwmb_meta($id, $type) ) ) {
+		return; # no isbn, no problem
+	} else {
+		$isbns = rwmb_meta($id, $type);
+		foreach ($isbns as $isbn) {
+			$isbn = esc_html( $isbn );
+			echo "ISBN: <span property='isbn'>{$isbn}</span>";
+			if ($br)
+				echo '</br>';
+		}
+	}
+}
+
+function pubwp_print_bookchap_doi( ) {
+	$id = '_pubwp_chapter_doi';  # field id of doi
+	$type = 'type = text';       # type of field
+	if ( empty( rwmb_meta($id, $type) ) ) {
+		return; # no Doi, no problem
+	} else {
+		$doi = esc_attr( rwmb_meta($id, $type) );
+		echo "DOI: <a property='sameAs' href='http://dx.doi.org/{$doi}'>{$doi}</a>";
+	}
+}
+
+function pubwp_print_bookchap_url( $br=False ) {
+	$id = '_pubwp_chapter_url'; # field id of uri
+	$type = 'type = url';       # type of field
+	if ( empty( rwmb_meta($id, $type) ) ) {
+		return; # no URL, no problem (local copy only)
+	} else {
+		$uri_arr = rwmb_meta( $id, $type );
+		foreach ($uri_arr as $uri) {
+			echo "URL: <a property='url' href='{$uri}'>{$uri}</a> ";
+			if ($br)
+				echo "<br />";
+		}
+	}
+}

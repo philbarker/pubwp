@@ -167,7 +167,7 @@ function pubwp_print_date_published( ) {
 
 function pubwp_print_doi( ) {
 	$id = '_pubwp_common_doi';  # field id of doi
-	$type = 'type = url';       # type of field
+	$type = 'type = text';       # type of field
 	if ( empty( rwmb_meta($id, $type) ) ) {
 		return; # no Doi, no problem
 	} else {
