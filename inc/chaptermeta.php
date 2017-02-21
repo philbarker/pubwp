@@ -82,8 +82,22 @@ function pubwp_register_chapter_meta_boxes( $meta_boxes ) {
 				'id'    => "{$prefix}isbn",
 				'desc'  => __( 'ISBN for the book (you may repeat for different formats but cannot specify which goes with which format, sorry)', 'pubwp' ),
 				'type'  => 'text',
-				'clone' => true
-			)			
+				'clone' => true,
+			),			
+			array(
+				'name'  => __( 'DOI', 'pubwp' ),
+				'id'    => "{$prefix}doi",
+				'desc'  => __( 'DOI for the book (you may repeat for different formats but cannot specify which goes with which format, sorry)', 'pubwp' ),
+				'type'  => 'text',
+				'clone' => true,
+			),
+			array(
+				'name'  => __( 'URL', 'pubwp' ),
+				'id'    => "{$prefix}url",
+				'desc'  => __( 'URL for the book (you may repeat for different formats but cannot specify which goes with which format, sorry)', 'pubwp' ),
+				'type'  => 'url',
+				'clone' => true,
+			)
 		)
 	);
 	return $meta_boxes;
