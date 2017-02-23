@@ -66,7 +66,7 @@ function pubwp_register_presentation_meta_boxes( $meta_boxes ) {
 			),
 			array(
 				'name'  => __( 'dates', 'pubwp' ),
-				'id'    => "{$prefix}code",
+				'id'    => "{$prefix}dates",
 				'desc'  => __( 'date range for conference', 'pubwp' ),
 				'type'  => 'text',
 				'clone' => false
@@ -74,5 +74,36 @@ function pubwp_register_presentation_meta_boxes( $meta_boxes ) {
 		)
 	);
 	return $meta_boxes;
+}
+
+function pubwp_print_meeting_info( ) {
+	$prefix = '_pubwp_presentation_';
+	if ( empty( rwmb_meta( "{$prefix}conference_name", 'text' ) ) ) {
+			$conference_name = False; 
+		} else {
+			$conference_name = rwmb_meta( "{$prefix}conference_name", 'text' );
+		}
+	if ( empty( rwmb_meta( "{$prefix}conference_location", 'text' ) ) ) {
+			$conference_location = False; 
+		} else {
+			$conference_location = rwmb_meta( "{$prefix}conference_location", 'text' );
+		}
+	if ( empty( rwmb_meta( "{$prefix}dates", 'text' ) ) ) {
+			$conference_dates = False; 
+		} else {
+			$conference_dates = rwmb_meta( "{$prefix}dates", 'text' );
+		}
+
+	if ($conference_name) {
+	echo "<span property='recordedAt' typeof='Event'>
+	      <span property='name'>{$conference_name}</span>";
+		if ($conference_location) { 
+	    	echo ", <span property='place'>{$conference_location}</span> ";
+	    }
+	    if ($conference_dates) {
+	      echo " ({$conference_dates}).";
+	    }
+	echo "</span>";
+	}	
 }
 
