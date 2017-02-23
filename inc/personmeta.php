@@ -19,7 +19,8 @@ function pubwp_create_person_type() {
         'singular_name' => __( 'Person', 'pubwp' )
       ),
       'public' => true,
-      'has_archive' => true,
+      'has_archive' => False,
+      'exclude_from_search' => True,
       'rewrite' => array('slug' => 'person'),
       'supports' => array('revisions' )
     )

@@ -38,6 +38,17 @@ function edit_screen_title() {
   }
 }
 
+function pubs_by_year ( $atts ) {
+	$results = '<p>';
+	$query = array();
+	$args = array('_builtin' => False,
+				  'exclude_from_search' => True);
+	$custom_post_types = get_post_types( $args, 'names', 'and' );
+	foreach ($custom_post_types as $custom_post_type) {
+		echo $custom_post_type;
+	}
+}
+add_shortcode( 'pubs-by-year', 'pubs_by_year' );
 
 $pubwp_dir = plugin_dir_path( __FILE__ );
 include_once( $pubwp_dir.'inc/personmeta.php' );

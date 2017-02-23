@@ -19,7 +19,8 @@ function pubwp_create_organization_type() {
         'singular_name' => __( 'Organization', 'pubwp' )
       ),
       'public' => true,
-      'has_archive' => true,
+      'has_archive' => False,
+      'exclude_from_search' => True,
       'rewrite' => array('slug' => 'organization'),
       'supports' => array('revisions' )
     )
