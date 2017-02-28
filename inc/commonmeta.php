@@ -150,6 +150,32 @@ function pubwp_print_authors( ) {
 	}
 }
 
+function pubwp_author_names( $post ) {
+	$id = '_pubwp_common_author_person'; # field id of authors
+	$args = array('type => post');               # type of field
+	if ( empty( rwmb_meta($id, $args, $post_id = $post->ID) ) ) {
+		//not much we can do with no authors -- shouldn't happen!
+		echo('What, no authors?'); //for debug only
+		echo $post->name;
+		return 'anon.';
+	} else {
+		$authors = rwmb_meta($id, $args, $post_id = $post->ID);
+		$len = count($authors);
+		$i = 0;
+		$author_names = '';
+		foreach ($authors as $author) {
+			$i = $i+1;
+			$author_names = $author_names.pubwp_person_fullname( $author );
+			if ($i < ($len - 1) ) {
+				$author_names = $author_names.', ';
+			} elseif ($i == ($len - 1) ) {
+				$author_names = $author_names.' and ';
+			}
+		}
+	}
+	return $author_names;
+}
+
 function pubwp_print_date_published( ) {
 	$id = '_pubwp_common_date_published'; # field id of pub date
 	$type = 'type = date';                # type of field
@@ -165,6 +191,19 @@ function pubwp_print_date_published( ) {
 	}
 }
 
+function pubwp_year( $post ) {
+	$id = '_pubwp_common_date_published'; # field id of pub date
+	$type = 'type = date';                # type of field
+	if ( empty( rwmb_meta($id, $type, $post_id = $post->ID ) ) ) {
+		//not much we can do with no authors -- shouldn't happen!
+		echo('What, no publication date?'); //for debug only
+		return 'n.d.';
+	} else {
+		$publication_date = rwmb_meta($id, $type,  $post_id = $post->ID );
+		return esc_html( explode( '-', $publication_date )[0] );
+	}
+}
+
 function pubwp_print_doi( ) {
 	$id = '_pubwp_common_doi';  # field id of doi
 	$type = 'type = text';       # type of field
@@ -173,6 +212,17 @@ function pubwp_print_doi( ) {
 	} else {
 		$doi = esc_attr( rwmb_meta($id, $type) );
 		echo "DOI: <a property='sameAs' href='http://dx.doi.org/{$doi}'>{$doi}</a>";
+	}
+}
+
+function pubwp_linked_doi( $post) {
+	$id = '_pubwp_common_doi';  # field id of doi
+	$type = 'type = text';       # type of field
+	if ( empty( rwmb_meta($id, $type, $post_id = $post->ID) ) ) {
+		return false; # no Doi, no problem
+	} else {
+		$doi = esc_attr( rwmb_meta($id, $type, $post_id = $post->ID) );
+		return "<a href='http://dx.doi.org/{$doi}'>{$doi}</a>";
 	}
 }
 
@@ -190,6 +240,23 @@ function pubwp_print_uri( $br=False ) {
 		}
 	}
 }
+
+function pubwp_linked_uri( $post ) {
+	$id = '_pubwp_common_uri'; # field id of uri
+	$type = 'type = url';       # type of field
+	if ( empty( rwmb_meta($id, $type , $post_id = $post->ID) ) ) {
+		return false; # no URL, no problem (local copy only)
+	} else {
+		$linked_uri_arr = array();
+		$uri_arr = rwmb_meta( $id, $type,  $post_id = $post->ID );
+		foreach ($uri_arr as $uri) {
+			$linked_uri = "<a href='{$uri}'>{$uri}</a>";
+			$linked_uri_arr[] = $linked_uri;
+		}
+	return $linked_uri_arr;
+	}
+}
+
 
 function pubwp_print_abstract( ) {
 	$id = '_pubwp_common_abstract'; # field id of abstract

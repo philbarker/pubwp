@@ -130,3 +130,21 @@ function pubwp_print_organization_info( $id ) {
 	}
 }
 
+function pubwp_organization_info( $id ) {
+// Prints information about organization, wrapped up in RDFa typeof schema:Organization
+	$prefix = '_pubwp_organization_';
+	$args = array();
+	$name = esc_html( rwmb_meta( "{$prefix}name", $args, $post_id = $id ) );
+	$location_arr = rwmb_meta( "{$prefix}location", $args, $post_id = $id );
+	$organization_info = '';
+	if (! $name ) {
+		return false; # no publisher info, no problem
+	} else {
+		$organization_info = $name;
+		foreach ($location_arr as $location) {
+			$location = esc_html( $location );
+			$organization_info = $organization_info.' '.$location;
+		}
+		return $organization_info;
+	}
+}

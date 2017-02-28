@@ -99,3 +99,15 @@ function pubwp_print_publisher( ) {
 		echo "</span>";
 	}
  }
+ 
+function pubwp_publisher( $post ) {
+	$id = '_pubwp_book_publisher'; # field id of authors
+	$type = 'type = post';               # type of field
+	if ( empty( rwmb_meta($id, $type, $post_id = $post->ID) ) ) {
+		return false; # no publisher info, no problem
+	} else {
+		$publisher = rwmb_meta($id, $type,  $post_id = $post->ID);
+	 	return pubwp_organization_info( $publisher );
+	}
+ }
+ 

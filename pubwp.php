@@ -38,17 +38,53 @@ function edit_screen_title() {
   }
 }
 
-function pubs_by_year ( $atts ) {
-	$results = '<p>';
+function pubwp_citation( $post ) {
+	$url = esc_url( get_permalink( $post->ID ) );
+	$title = $post->post_title;
+	$linked_title = "<a href='{$url}'>{$title}</a>";
+	$author_names = pubwp_author_names( $post );
+	$year = pubwp_year( $post );
+	$citation = $author_names.' ('.$year.') '.$linked_title.'. ';
+	if ('pubwp_book' == $post->post_type) {
+		$citation = $citation.' '.pubwp_publisher( $post );
+	} elseif ('pubwp_report' == $post->post_type) {
+		$citation = $citation.' ('.pubwp_report_info( $post ).').';
+	} elseif ('pubwp_presentation' == $post->post_type) {
+		$citation = $citation.' '.pubwp_presentation_info( $post ).'.';
+	}
+	if ( pubwp_linked_doi( $post ) ) {
+		$citation = $citation.'<br />DOI: '.pubwp_linked_doi( $post );
+	}
+	if ( pubwp_linked_uri( $post ) ) {
+		foreach ( pubwp_linked_uri( $post ) as $linked_url ) {
+			$citation = $citation.'<br />URI: '.$linked_url;
+		}
+	}
+	return $citation;
+
+}
+
+function pubwp_by_type ( $atts ) {
 	$query = array();
 	$args = array('_builtin' => False,
-				  'exclude_from_search' => True);
-	$custom_post_types = get_post_types( $args, 'names', 'and' );
+				  'exclude_from_search' => False);
+	$custom_post_types = get_post_types( $args, 'objects', 'and' );
+	
+	$query = array( 'posts_per_page' => -1 );
 	foreach ($custom_post_types as $custom_post_type) {
-		echo $custom_post_type;
+		echo "<h4>{$custom_post_type->label}</h4>";
+		$query['post_type'] = $custom_post_type->name;
+		$posts = get_posts( $query );
+		echo '<p>';
+		foreach ($posts as $post) {
+			$url = esc_url( get_permalink( $post->ID ) );
+			$title = $post->post_title;
+			echo pubwp_citation( $post );
+		}
+		echo '</p>';
 	}
 }
-add_shortcode( 'pubs-by-year', 'pubs_by_year' );
+add_shortcode( 'pubs-by-type', 'pubwp_by_type' );
 
 $pubwp_dir = plugin_dir_path( __FILE__ );
 include_once( $pubwp_dir.'inc/personmeta.php' );

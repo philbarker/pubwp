@@ -84,7 +84,7 @@ function pubwp_print_report_series( ) {
 	if ( empty( rwmb_meta( $id, $type ) ) ) {
 		return; # no code, no problem.
 	} else {
-		echo rwmb_meta( $id, $type );
+		echo esc_html( rwmb_meta( $id, $type ) );
 	}
 }
 
@@ -108,8 +108,23 @@ function pubwp_print_report_code( ) {
 	if ( empty( rwmb_meta( $id, $type ) ) ) {
 		return; # no code, no problem.
 	} else {
-		echo rwmb_meta( $id, $type );
+		echo esc_html( rwmb_meta( $id, $type ) );
 	}
 }
 
-
+function pubwp_report_info( $post ) {
+	$report_info = '';
+	$post_id = $post->ID;
+	$id = '_pubwp_report_series'; # field id of series name
+	$type = 'type = text';       # type of field
+	if ( ! empty( rwmb_meta( $id, $type, $post_id) ) ) {
+		 $report_info = $report_info.rwmb_meta( $id, $type, $post_id ) ;
+	}
+	$id = '_pubwp_report_code'; # field id of series name
+	$type = 'type = text';       # type of field
+	if ( ! empty( rwmb_meta( $id, $type, $post_id) ) ) {
+		 $report_info = $report_info.' no. '.rwmb_meta( $id, $type, $post_id ) ;
+	}
+	return $report_info;
+	
+}

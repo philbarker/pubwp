@@ -165,4 +165,22 @@ function pubwp_print_person_fullname( $id ) {
 	}
 }
 
+function pubwp_person_fullname( $id ) {
+// Prints a persons full name using display name is present, or GivenName FamilyName if not.
+// Wraps name in schema.org property terms name, givenName, familyName
+    $prefix = '_pubwp_person_';
+    $args = array();
+    $family_name = esc_html( rwmb_meta( "{$prefix}family_name", $args, $post_id = $id) );
+    $given_name = esc_html( rwmb_meta( "{$prefix}given_name", $args, $post_id = $id) );
+    $display_name = esc_html( rwmb_meta( "{$prefix}display_name", $args, $post_id = $id) );
+	$url_arr = rwmb_meta( "{$prefix}uri", $args, $post_id = $id );
+
+    if ( $display_name ) {
+		return $display_name;
+	} elseif ( $family_name || $given_name ) {
+		return $given_name.' '.$family_name;
+    } else {
+		return 'anon.';
+	}
+}
 

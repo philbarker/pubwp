@@ -107,3 +107,22 @@ function pubwp_print_meeting_info( ) {
 	}	
 }
 
+function pubwp_presentation_info( $post ) {
+	$prefix = '_pubwp_presentation_';
+	$post_id = $post->ID;
+	$presentation_info = '';
+	if ( ! empty( rwmb_meta( "{$prefix}conference_name", 'text', $post_id ) ) ) {
+			$conference_name = rwmb_meta( "{$prefix}conference_name", 'text',  $post_id);
+			$presentation_info = $presentation_info.'Presented at '.$conference_name;
+	}
+	if ( ! empty( rwmb_meta( "{$prefix}conference_location", 'text',  $post_id ) ) ) {
+			$conference_location = rwmb_meta( "{$prefix}conference_location", 'text',  $post_id );
+			$presentation_info = $presentation_info.', '.$conference_location;
+	}
+	if ( ! empty( rwmb_meta( "{$prefix}dates", 'text' ) ) ) {
+			$conference_dates = rwmb_meta( "{$prefix}dates", 'text', $post_id );
+			$presentation_info = $presentation_info.' '.$conference_dates;
+	}
+	return esc_html($presentation_info);
+}
+
