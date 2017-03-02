@@ -47,8 +47,9 @@ function pubwp_citation( $post ) {
 	$citation = $author_names.' ('.$year.') '.$linked_title.'. ';
 	if ('pubwp_book' == $post->post_type) {
 		$citation = $citation.' '.pubwp_publisher( $post );
-		if ( pubwp_isbn( $post ) ) {
-			foreach  (pubwp_isbn( $post ) as $isbn ) {
+		if ( pubwp_isbns( $post ) ) {
+			foreach  (pubwp_isbns( $post ) as $isbn ) {
+				$isbn = esc_html ($isbn );
 				$citation = $citation.'<br />ISBN: '.$isbn;
 			}
 		}

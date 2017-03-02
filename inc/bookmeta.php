@@ -73,11 +73,11 @@ function pubwp_register_book_meta_boxes( $meta_boxes ) {
 
 function pubwp_print_isbn( $br=False ) {
 	$id = '_pubwp_book_isbn'; # field id of ISBN
-	$type = 'type = text';       # type of field
-	if ( empty( rwmb_meta($id, $type) ) ) {
+	$args = array( 'type' => 'text');       # type of field
+	$isbns = rwmb_meta($id, $args);
+	if ( empty( $isbns ) ) {
 		return; # no isbn, no problem
 	} else {
-		$isbns = rwmb_meta($id, $type);
 		foreach ($isbns as $isbn) {
 			$isbn = esc_html( $isbn );
 			echo "ISBN: <span property='isbn'>{$isbn}</span>";
@@ -87,23 +87,24 @@ function pubwp_print_isbn( $br=False ) {
 	}
 }
 
-function pubwp_isbn( $post ) {
+function pubwp_isbns( $post ) {
 	$id = '_pubwp_book_isbn'; # field id of ISBN
-	$type = 'type = text';       # type of field
-	if ( empty( rwmb_meta($id, $type, $post->ID) ) ) {
+	$args = array( 'type' => 'text'); # type of field
+	$isbns = rwmb_meta($id, $args, $post->ID);
+	if ( empty( $isbns ) ) {
 		return false; # no isbn, no problem
 	} else {
-		return rwmb_meta($id, $type, $post->ID);
+		return $isbns;
 	}
 }
 
 function pubwp_print_publisher( ) {
 	$id = '_pubwp_book_publisher'; # field id of authors
-	$type = 'type = post';               # type of field
-	if ( empty( rwmb_meta($id, $type) ) ) {
+	$args = array('type' => 'post');  # type of field
+	$publisher = rwmb_meta($id, $args);
+	if ( empty( $publisher ) ) {
 		return; # no publisher info, no problem
 	} else {
-		$publisher = rwmb_meta($id, $type);
 		echo "Published by: <span property='publisher' typeof='Organization'>";
 	 	pubwp_print_organization_info( $publisher );		
 		echo "</span>";
@@ -112,11 +113,11 @@ function pubwp_print_publisher( ) {
  
 function pubwp_publisher( $post ) {
 	$id = '_pubwp_book_publisher'; # field id of authors
-	$type = 'type = post';               # type of field
-	if ( empty( rwmb_meta($id, $type, $post_id = $post->ID) ) ) {
+	$args = array('type' => 'post');  # type of field
+	$publisher = rwmb_meta($id, $args, $post->ID);
+	if ( empty( $publisher )) {
 		return false; # no publisher info, no problem
 	} else {
-		$publisher = rwmb_meta($id, $type,  $post_id = $post->ID);
 	 	return pubwp_organization_info( $publisher );
 	}
  }
