@@ -9,6 +9,8 @@
  *
  **/
 
+defined( 'ABSPATH' ) or die( 'Be good. If you can\'t be good be careful' );
+
 // Registering meta boxes for commonly used properties
 // More info @ http://metabox.io/docs/registering-meta-boxes/
 add_filter( 'rwmb_meta_boxes', 'pubwp_register_common_meta_boxes' );
@@ -124,15 +126,15 @@ function pubwp_register_common_meta_boxes( $meta_boxes ) {
 	return $meta_boxes;
 }
 
-function pubwp_print_authors( ) {
+function pubwp_print_authors(  ) {
 	$id = '_pubwp_common_author_person'; # field id of authors
-	$type = 'type = post';               # type of field
-	if ( empty( rwmb_meta($id, $type) ) ) {
+	$args = array( 'type' => 'post' );   # type of field
+	$authors = rwmb_meta($id, $args);
+	if ( empty( $authors ) ) {
 		//not much we can do with no authors -- shouldn't happen!
 		echo('What, no authors?'); //for debug only
 		return;
 	} else {
-		$authors = rwmb_meta($id, $type);
 		$len = count($authors);
 		$i = 0;
 		echo "By: ";
@@ -152,14 +154,14 @@ function pubwp_print_authors( ) {
 
 function pubwp_author_names( $post ) {
 	$id = '_pubwp_common_author_person'; # field id of authors
-	$args = array('type => post');               # type of field
-	if ( empty( rwmb_meta($id, $args, $post_id = $post->ID) ) ) {
+	$args = array('type' => 'post');               # type of field
+	$authors = rwmb_meta($id, $args, $post_id = $post->ID);
+	if ( empty( $authors ) ) {
 		//not much we can do with no authors -- shouldn't happen!
 		echo('What, no authors?'); //for debug only
 		echo $post->name;
 		return 'anon.';
 	} else {
-		$authors = rwmb_meta($id, $args, $post_id = $post->ID);
 		$len = count($authors);
 		$i = 0;
 		$author_names = '';
@@ -178,62 +180,64 @@ function pubwp_author_names( $post ) {
 
 function pubwp_print_date_published( ) {
 	$id = '_pubwp_common_date_published'; # field id of pub date
-	$type = 'type = date';                # type of field
-	if ( empty( rwmb_meta($id, $type) ) ) {
+	$args = array('type' => 'date');      # type of field
+	$publication_date = rwmb_meta($id, $args);
+	if ( empty( $publication_date ) ) {
 		//not much we can do with no authors -- shouldn't happen!
 		echo('What, no publication date?'); //for debug only
 		return;
 	} else {
-		$publication_date = rwmb_meta($id, $type);
 		$publication_year = esc_html( explode( '-', $publication_date )[0] );
-		$publication_date = esc_html( $publication_date );
+		$publication_date = esc_attr( $publication_date );
 		echo "<time datetime='{$publication_date}' property='datePublished'>{$publication_year}</time>";
 	}
 }
 
 function pubwp_year( $post ) {
 	$id = '_pubwp_common_date_published'; # field id of pub date
-	$type = 'type = date';                # type of field
-	if ( empty( rwmb_meta($id, $type, $post_id = $post->ID ) ) ) {
+	$args = array('type' => 'date');      # type of field
+	$publication_date = rwmb_meta($id, $args, $post_id = $post->ID );
+	if ( empty( $publication_date ) ) {
 		//not much we can do with no authors -- shouldn't happen!
-		echo('What, no publication date?'); //for debug only
 		return 'n.d.';
 	} else {
-		$publication_date = rwmb_meta($id, $type,  $post_id = $post->ID );
 		return esc_html( explode( '-', $publication_date )[0] );
 	}
 }
 
 function pubwp_print_doi( ) {
-	$id = '_pubwp_common_doi';  # field id of doi
-	$type = 'type = text';       # type of field
-	if ( empty( rwmb_meta($id, $type) ) ) {
+	$id = '_pubwp_common_doi';       # field id of doi
+	$args = array('type' => 'text'); # type of field
+	$doi = rwmb_meta($id, $args);
+	if ( empty( $doi ) ) {
 		return; # no Doi, no problem
 	} else {
-		$doi = esc_attr( rwmb_meta($id, $type) );
+		$doi = esc_attr( $doi );
 		echo "DOI: <a property='sameAs' href='http://dx.doi.org/{$doi}'>{$doi}</a>";
 	}
 }
 
 function pubwp_linked_doi( $post) {
-	$id = '_pubwp_common_doi';  # field id of doi
-	$type = 'type = text';       # type of field
-	if ( empty( rwmb_meta($id, $type, $post_id = $post->ID) ) ) {
+	$id = '_pubwp_common_doi';       # field id of doi
+	$args = array('type' => 'text'); # type of field
+	$doi = rwmb_meta($id, $args, $post->ID );
+	if ( empty( $doi) ) {
 		return false; # no Doi, no problem
 	} else {
-		$doi = esc_attr( rwmb_meta($id, $type, $post_id = $post->ID) );
+		$doi = esc_attr( $doi );
 		return "<a href='http://dx.doi.org/{$doi}'>{$doi}</a>";
 	}
 }
 
 function pubwp_print_uri( $br=False ) {
 	$id = '_pubwp_common_uri'; # field id of uri
-	$type = 'type = url';       # type of field
-	if ( empty( rwmb_meta($id, $type) ) ) {
+	$args = array('type' => 'url'); # type of field
+	$uri_arr = rwmb_meta($id, $args);
+	if ( empty( $uri_arr ) ) {
 		return; # no URL, no problem (local copy only)
 	} else {
-		$uri_arr = rwmb_meta( $id, $type );
 		foreach ($uri_arr as $uri) {
+			$uri = esc_url( $uri );
 			echo "URL: <a property='url' href='{$uri}'>{$uri}</a> ";
 			if ($br)
 				echo "<br />";
@@ -243,13 +247,14 @@ function pubwp_print_uri( $br=False ) {
 
 function pubwp_linked_uri( $post ) {
 	$id = '_pubwp_common_uri'; # field id of uri
-	$type = 'type = url';       # type of field
-	if ( empty( rwmb_meta($id, $type , $post_id = $post->ID) ) ) {
+	$args = array('type' => 'url'); # type of field
+	$uri_arr = rwmb_meta( $id, $args, $post->ID );
+	if ( empty( $uri_arr ) ) {
 		return false; # no URL, no problem (local copy only)
 	} else {
 		$linked_uri_arr = array();
-		$uri_arr = rwmb_meta( $id, $type,  $post_id = $post->ID );
 		foreach ($uri_arr as $uri) {
+			$uri = esc_url( $uri );
 			$linked_uri = "<a href='{$uri}'>{$uri}</a>";
 			$linked_uri_arr[] = $linked_uri;
 		}
@@ -259,28 +264,29 @@ function pubwp_linked_uri( $post ) {
 
 
 function pubwp_print_abstract( ) {
-	$id = '_pubwp_common_abstract'; # field id of abstract
-	$type = 'type = WYSIWYG';       # type of field
-	if ( empty( rwmb_meta( $id, $type ) ) ) {
-		echo "Abstract unavailable";
+	$id = '_pubwp_common_abstract';      # field id of abstract
+	$args = array( 'type' => 'WYSIWYG'); # type of field
+	$abstract = rwmb_meta( $id, $args );
+	if ( empty( $abstract ) ) {
+		echo "<p>Abstract unavailable</p>";
 		return;
 	} else {
-		echo "<div property='description'>".rwmb_meta( $id, $type )."</div>";
+		echo "<div property='description'>".$abstract."</div>";
 	}
 }
 
 function pubwp_print_local_info( ) {
 	$lc_file_id = '_pubwp_common_local_copy';       # field id of local copy
-	$lc_file_type = 'type = file_upload';           # type of field
+	$lc_file_args = array('type' => 'file_upload');           # type of field
 	$lc_licence_id = '_pubwp_common_local_licence'; # field id of licence
-	$lc_licence_type = 'type = text';               # type of field
+	$lc_licence_args = array('type' => 'text');               # type of field
 	$lc_version_id = '_pubwp_common_local_version'; # field id of version
-	$lc_version_type = 'type = text';               # type of field
-	if ( empty( rwmb_meta( $lc_file_id, $lc_file_type) ) ) {
+	$lc_version_args = array('type' => 'text');               # type of field
+	$files = rwmb_meta( $lc_file_id, $lc_file_args);
+	if ( empty( $files ) ) {
 		echo( 'No local copy available' );
 		return; # No local copy, no problem;
 	} else {
-		$files = rwmb_meta( $lc_file_id, $lc_file_type);
 		foreach ($files as $file) {
 			echo"<p property='workExample' typeOf='CreativeWork'>Local copy: ";
 			if ( !empty( $file['title'] ) ) {
@@ -294,12 +300,14 @@ function pubwp_print_local_info( ) {
 			echo "<a href='{$file_url}'>{$file_name}</a><br>";
 			# currently not efficient to calc following info for each file as it is same
 			# however looking forward need some way of giving diffent versions & licences
-			if ( ! empty( rwmb_meta( $lc_licence_id, $lc_licence_type) ) ) {
-				$licence = esc_html( rwmb_meta( $lc_licence_id, $lc_licence_type) );
+			$licence = rwmb_meta( $lc_licence_id, $lc_licence_args);
+			if ( ! empty( $licence ) ) {
+				$licence = esc_html( $licence );
 				echo "licence: <span property='license'>{$licence}</span><br>";
 			}
-			if ( ! empty( rwmb_meta( $lc_version_id, $lc_version_type) ) ) {
-				$version = esc_html( rwmb_meta( $lc_version_id, $lc_version_type) );
+			$version = rwmb_meta( $lc_version_id, $lc_version_args);
+			if ( ! empty( $version ) ) {
+				$version = esc_html( $version );
 				echo "version: <span property='version'>{$version}</span><br>";
 			}
 			echo "</p>";
@@ -309,9 +317,10 @@ function pubwp_print_local_info( ) {
 
 function pubwp_print_peer_reviewed( ) {
 	$id = '_pubwp_common_peer_reviewed'; # field id of peer reviewed
-	$type = 'type = radio';       # type of field	
-	if ( ! empty( rwmb_meta( $id, $type) ) ) {
-		$peer_reviewed = rwmb_meta( $id, $type);
+	$args = array('type' => 'radio');       # type of field	
+	$peer_reviewed = rwmb_meta( $id, $args);
+	if ( ! empty( $peer_reviewed ) )  {
+		$peer_reviewed = esc_html( $peer_reviewed );
 		echo "Peer reviewed? {$peer_reviewed}.";
 	}
 }
