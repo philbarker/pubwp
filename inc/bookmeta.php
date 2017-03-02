@@ -87,6 +87,16 @@ function pubwp_print_isbn( $br=False ) {
 	}
 }
 
+function pubwp_isbn( $post ) {
+	$id = '_pubwp_book_isbn'; # field id of ISBN
+	$type = 'type = text';       # type of field
+	if ( empty( rwmb_meta($id, $type, $post->ID) ) ) {
+		return false; # no isbn, no problem
+	} else {
+		return rwmb_meta($id, $type, $post->ID);
+	}
+}
+
 function pubwp_print_publisher( ) {
 	$id = '_pubwp_book_publisher'; # field id of authors
 	$type = 'type = post';               # type of field

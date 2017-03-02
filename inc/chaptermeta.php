@@ -114,6 +114,18 @@ function pubwp_print_bookchap_title( ) {
 	}
 }
 
+function pubwp_bookchap_title( $post ) {
+	$id = '_pubwp_chapter_title'; # field id of abstract
+	$type = 'type = text';       # type of field
+	$title = rwmb_meta( $id, $type, $post->ID );
+	if ( empty( $title ) ) {
+		return "untitled";
+	} else {
+		return esc_html($title);
+	}
+
+}
+
 function pubwp_print_bookchap_editors( ) {
 	$id = '_pubwp_chapter_editor_person'; # field id of authors
 	$type = 'type = post';               # type of field
@@ -139,6 +151,32 @@ function pubwp_print_bookchap_editors( ) {
 	}
 }
 
+function pubwp_bookchap_editors( $post ) {
+	$id = '_pubwp_chapter_editor_person'; # field id of authors
+	$type = 'type = post';               # type of field
+	$editor_arr = array( );
+	$editor_arr = rwmb_meta($id, $type, $post->ID);
+	$editors = '';
+	if ( empty( $editor_arr ) ) {
+		//not much we can do with no authors -- shouldn't happen!
+		echo('What, no editors?'); //for debug only
+		return false;
+	} else {
+		$len = count($editor_arr);
+		$i = 0;
+		foreach ($editor_arr as $editor) {
+			$i = $i+1;
+			$editors = $editors.pubwp_person_fullname( $editor );
+			if ($i < ($len - 1) ) {
+				$editors = $editors.', ';
+			} elseif ($i == ($len - 1) ) {
+				$editors = $editors.' and ';
+			}
+		}
+		return esc_html( $editors );
+	}
+}
+
 function pubwp_print_bookchap_publisher( ) {
 	$id = '_pubwp_chapter_publisher'; # field id of authors
 	$type = 'type = post';               # type of field
@@ -149,6 +187,17 @@ function pubwp_print_bookchap_publisher( ) {
 		echo "Published by: <span property='publisher' typeof='Organization'>";
 	 	pubwp_print_organization_info( $publisher );
 		echo "</span>";
+	}
+ }
+
+function pubwp_bookchap_publisher( $post ) {
+	$id = '_pubwp_chapter_publisher'; # field id of authors
+	$type = 'type = post';               # type of field
+	$publisher = rwmb_meta($id, $type, $post->ID);
+	if ( empty( $publisher ) ) {
+		return false; # no publisher info, no problem
+	} else {
+	 	return pubwp_organization_info( $publisher );
 	}
  }
  
@@ -187,9 +236,24 @@ function pubwp_print_bookchap_url( $br=False ) {
 	} else {
 		$uri_arr = rwmb_meta( $id, $type );
 		foreach ($uri_arr as $uri) {
+			esc_url( $uri );
 			echo "URL: <a property='url' href='{$uri}'>{$uri}</a> ";
 			if ($br)
 				echo "<br />";
 		}
 	}
 }
+
+function pubwp_chapter_info( $post ) {
+	$info = '';
+	if ( pubwp_bookchap_editors( $post ) ) {
+		$info = $info.pubwp_bookchap_editors( $post ).' (Eds.) ';
+	}
+	$info = $info.pubwp_bookchap_title( $post ).'. ';
+	if ( pubwp_bookchap_publisher( $post ) ) {
+		$info = $info.pubwp_bookchap_publisher( $post );
+	}
+	return esc_html( $info );
+}
+
+

@@ -128,3 +128,41 @@ function pubwp_print_journal_issue_details( ) {
 	}
 }
 
+function pubwp_journal_info( $post ) {
+	$prefix = '_pubwp_paper_';
+	$ja = False; # Journal name
+	$is = False; # Issue number 
+	$vl = False; # Volume number
+	$sp = False; # Start page
+	$ep = False; # End page
+	$info = '';
+	
+	if ( ! empty( rwmb_meta("{$prefix}journal_title", 'type = text', $post->ID) ) ) 
+		$ja = esc_html( rwmb_meta("{$prefix}journal_title", 'type = text', $post->ID) );
+	if ( ! empty( rwmb_meta("{$prefix}journal_issue", 'type = text', $post->ID) ) ) 
+		$is = esc_html( rwmb_meta("{$prefix}journal_issue", 'type = text', $post->ID) );
+	if ( ! empty( rwmb_meta("{$prefix}journal_volumen", 'type = number', $post->ID) ) ) 
+		$vl = esc_html( rwmb_meta("{$prefix}journal_volumen", 'type = number', $post->ID) );
+	if ( ! empty( rwmb_meta("{$prefix}journal_page_from", 'type = number', $post->ID) ) ) 
+		$sp = esc_html( rwmb_meta("{$prefix}journal_page_from", 'type = number', $post->ID) );
+	if ( ! empty( rwmb_meta("{$prefix}journal_page_to", 'type = number', $post->ID) ) ) 
+		$ep = esc_html( rwmb_meta("{$prefix}journal_page_to", 'type = number', $post->ID) );
+		
+	if ($ja) {
+		$info = $ja;
+		if ($vl)
+			$info = $info.' '.$vl;
+		if ($is)
+			$info = $info.'('.$is.')';
+		if ($sp && $ep) {
+			$info = $info." pp. {$sp}-{$ep}";
+		} elseif ($sp) {
+			$info = $info." p. {$sp}";
+		}
+		return $info;
+	} else {
+		//not much we can do with no journal name -- shouldn't happen!
+		return false; //for debug only
+	}
+}
+
