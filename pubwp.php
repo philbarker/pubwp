@@ -15,27 +15,27 @@ defined( 'ABSPATH' ) or die( 'Be good. If you can\'t be good be careful' );
 /* check that meta-box plugin is installed */
 add_action( 'admin_init', 'child_plugin_has_parent_plugin' );
 function child_plugin_has_parent_plugin() {
-    if ( is_admin() && current_user_can( 'activate_plugins' ) &&  !is_plugin_active( 'meta-box/meta-box.php' ) ) {
-        add_action( 'admin_notices', 'child_plugin_notice' );
-        deactivate_plugins( plugin_basename( __FILE__ ) ); 
-        if ( isset( $_GET['activate'] ) ) {
-            unset( $_GET['activate'] );
-        }
-    }
+	if ( is_admin() && current_user_can( 'activate_plugins' ) &&  !is_plugin_active( 'meta-box/meta-box.php' ) ) {
+		add_action( 'admin_notices', 'child_plugin_notice' );
+		deactivate_plugins( plugin_basename( __FILE__ ) ); 
+		if ( isset( $_GET['activate'] ) ) {
+			unset( $_GET['activate'] );
+		}
+	}
 }
 
 function child_plugin_notice(){
-    ?><div class="error"><p>Sorry, but SemWP Plugin requires the <a href="https://metabox.io/">meta box plugin</a> to be installed and active.</p></div><?php
+	?><div class="error"><p>Sorry, but SemWP Plugin requires the <a href="https://metabox.io/">meta box plugin</a> to be installed and active.</p></div><?php
 }
 
 add_action( 'admin_head', 'edit_screen_title' );
 function edit_screen_title() {
-  global $title, $current_screen;
-  $post_type = $current_screen->post_type;
-  if ( $post_type && ( $post_type != 'post' ) ) {
-    $post_type_label = get_post_type_object( $post_type )->labels->singular_name;
-    $title = 'Edit ' . $post_type_label .' data ';
-  }
+	global $title, $current_screen;
+	$post_type = $current_screen->post_type;
+	if ( $post_type && ( $post_type != 'post' ) ) {
+		$post_type_label = get_post_type_object( $post_type )->labels->singular_name;
+		$title = 'Edit ' . $post_type_label .' data ';
+	}
 }
 
 function pubwp_citation( $post ) {
@@ -70,17 +70,16 @@ function pubwp_citation( $post ) {
 		}
 	}
 	return $citation;
-
 }
 
 function pubwp_by_type ( ) {
 	$args = array('_builtin' => False,
 				  'exclude_from_search' => False);
-	$custom_post_types = get_post_types( $args, 'objects', 'and' );
-	
+	$custom_post_types = get_post_types( $args, 'objects', 'and' );	
 	$query = array( 'posts_per_page' => -1 );
 	foreach ($custom_post_types as $custom_post_type) {
-		echo "<h4>{$custom_post_type->label}</h4>";
+		$label = esc_html( $custom_post_type->label );
+		echo "<h4>{$label}</h4>";
 		$query['post_type'] = $custom_post_type->name;
 		$posts = get_posts( $query );
 		echo '<p>';
