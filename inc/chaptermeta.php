@@ -7,6 +7,8 @@
  *
  **/
 
+defined( 'ABSPATH' ) or die( 'Be good. If you can\'t be good be careful' );
+
 // create a custom post type for chapters & register meta boxes for chapter metadata
 // see https://codex.wordpress.org/Function_Reference/register_post_type
 // hook it up to init so that it gets called good and early
@@ -34,17 +36,17 @@ function pubwp_create_chapter_type() {
 // More info @ http://metabox.io/docs/registering-meta-boxes/
 add_filter( 'rwmb_meta_boxes', 'pubwp_register_chapter_meta_boxes' );
 function pubwp_register_chapter_meta_boxes( $meta_boxes ) {
-    // @param array $meta_boxes List of meta boxes
-    // @return array
+	// @param array $meta_boxes List of meta boxes
+	// @return array
 	$prefix = '_pubwp_chapter_';  // prefix of meta keys keys hidden
 
 
 	$meta_boxes[] = array(
-		'id'         => 'pubwp_chapter_info',  // Meta box id
+		'id'		 => 'pubwp_chapter_info',  // Meta box id
 		// Meta box title - Will appear at the drag and drop handle bar. Required.
-        'title'      => __( 'Information about the book containing this chapter', 'pubwp' ),
+		'title'		 => __( 'Information about the book containing this chapter', 'pubwp' ),
 		'post_types' => array( 'pubwp_chapter' ),// Post types that have this metabox
-		'context'    => 'normal',             // Where the meta box appear
+		'context'	 => 'normal',             // Where the meta box appear
 		'priority'   => 'low',               // Order of meta box
 		'autosave'   => true,                 // Auto save
 

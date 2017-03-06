@@ -8,6 +8,8 @@
  *
  **/
 
+defined( 'ABSPATH' ) or die( 'Be good. If you can\'t be good be careful' );
+
 // create a custom post type for presentations & register meta boxes for 
 // conference paper metadata
 // see https://codex.wordpress.org/Function_Reference/register_post_type

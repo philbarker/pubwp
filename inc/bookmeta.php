@@ -7,6 +7,8 @@
  *
  **/
 
+defined( 'ABSPATH' ) or die( 'Be good. If you can\'t be good be careful' );
+
 // create a custom post type for books & register meta boxes for book metadata
 // see https://codex.wordpress.org/Function_Reference/register_post_type
 // hook it up to init so that it gets called good and early

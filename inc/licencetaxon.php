@@ -5,6 +5,8 @@
  * see https://codex.wordpress.org/Taxonomies for example on which this is based
  **/
 
+defined( 'ABSPATH' ) or die( 'Be good. If you can\'t be good be careful' );
+
 add_action( 'init', 'pubwp_licence_init' );
 function pubwp_licence_init() {
 	// create taxonomy called pubwp_subject
