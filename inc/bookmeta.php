@@ -84,7 +84,7 @@ function pubwp_print_isbn( $br=False ) {
 			$isbn = esc_html( $isbn );
 			echo "ISBN: <span property='isbn'>{$isbn}</span>";
 			if ($br)
-				echo '</br>';
+				echo '<br />';
 		}
 	}
 }
