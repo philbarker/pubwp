@@ -14,19 +14,19 @@ defined( 'ABSPATH' ) or die( 'Be good. If you can\'t be good be careful' );
 // hook it up to init so that it gets called good and early
 add_action( 'init', 'pubwp_create_person_type' );
 function pubwp_create_person_type() {
-  register_post_type( 'pubwp_person',
-    array(
-      'labels' => array(
-        'name' => __( 'People', 'pubwp' ),
-        'singular_name' => __( 'Person', 'pubwp' )
-      ),
-      'public' => true,
-      'has_archive' => False,
-      'exclude_from_search' => True,
-      'rewrite' => array('slug' => 'person'),
-      'supports' => array('revisions' )
-    )
-  );
+	register_post_type('pubwp_person',
+		array(
+			'labels' => array(
+				'name' => __( 'People', 'pubwp' ),
+				'singular_name' => __( 'Person', 'pubwp' )
+				),
+			'public' => true,
+			'has_archive' => False,
+			'exclude_from_search' => True,
+			'rewrite' => array('slug' => 'person'),
+			'supports' => array('revisions' )
+		)
+	);
 }
 
 
@@ -34,18 +34,18 @@ function pubwp_create_person_type() {
 // More info @ http://metabox.io/docs/registering-meta-boxes/
 add_filter( 'rwmb_meta_boxes', 'pubwp_register_person_meta_boxes' );
 function pubwp_register_person_meta_boxes( $meta_boxes ) {
-    // @param array $meta_boxes List of meta boxes
-    // @return array
+	// @param array $meta_boxes List of meta boxes
+	// @return array
 	$prefix = '_pubwp_person_';  // prefix of meta keys keys hidden
 
 	$meta_boxes[] = array(
 		'id'         => 'pubwp_person_info',  // Meta box id
 		// Meta box title - Will appear at the drag and drop handle bar. Required.
-        'title'      => __( 'Information about a person, e.g. the name of an author', 'pubwp' ),
-		'post_types' => array('pubwp_person' ),     // Post types that have this metabox
-		'context'    => 'normal',             // Where the meta box appear
+		'title'      => __( 'Information about a person, e.g. the name of an author', 'pubwp' ),
+		'post_types' => array('pubwp_person' ), // Post types that have this metabox
+		'context'    => 'normal',              // Where the meta box appear
 		'priority'   => 'high',               // Order of meta box
-		'autosave'   => true,                 // Auto save
+		'autosave'   => true,                // Auto save
 
 		// List of meta fields
 		'fields'     => array(
@@ -85,75 +85,38 @@ function pubwp_register_person_meta_boxes( $meta_boxes ) {
 }
 
 
-// Person custom post type does not support title, but do need a title to display
-// in selection boxes when linking to an person from another post.
-add_filter( 'wp_insert_post_data', 'pubwp_modify_person_title', 99, 1 );
-function pubwp_modify_person_title( $data ) {
-	$prefix = '_pubwp_person_';
-	$display_name = '';
-	$given_name = '';
-	$family_name = '';
-	if ( isset($_POST['post_type'])  && ('pubwp_person' == $_POST['post_type'])) {
-		if (isset($_POST["{$prefix}display_name"]))
-			$display_name = $_POST["{$prefix}display_name"];
-		if (isset($_POST["{$prefix}given_name"]))
-			$given_name = $_POST["{$prefix}given_name"];
-		if (isset($_POST["{$prefix}family_name"]))
-			$family_name = $_POST["{$prefix}family_name"];
-		if ($display_name != '') {
-			$data['post_title'] = $display_name;
-		} elseif (($given_name != '') ||  ($family_name != '')) {
-			$data['post_title'] = $given_name.' '.$family_name;
-		} else {
-			$data['post_title'] = 'Any mouse';
-		}
-	}
-	return $data;
-}
-
-// Person custom post type does not support title, so need to display other useful
-// info in admin post list pages. 
-// see https://www.smashingmagazine.com/2013/12/modifying-admin-post-lists-in-wordpress/
-add_filter('manage_pubwp_person_posts_columns', 'pubwp_person_table_head');
-function pubwp_person_table_head( $defaults ) {
-    $prefix = '_pubwp_person_';
-    $defaults["{$prefix}given_name"]  = __('Given name', 'pubwp' );
-    $defaults["{$prefix}family_name"]  = __('Family name', 'pubwp' );
-    $defaults["{$prefix}display_name"]  = __('Display name', 'pubwp' );
-    return $defaults;
-}
 
 add_action( 'manage_pubwp_person_posts_custom_column', 'pubwp_person_table_content', 10, 2 );
 function pubwp_person_table_content( $column_name, $post_id ) {
 	$prefix = '_pubwp_person_';  // prefix of meta keys keys hidden
-    if ( $column_name == "{$prefix}given_name" ) {
+	if ( $column_name == "{$prefix}given_name" ) {
 		echo rwmb_meta( "{$prefix}given_name" );
-    }
-    if ( $column_name == "{$prefix}family_name" ) {
+	}
+	if ( $column_name == "{$prefix}family_name" ) {
 		echo rwmb_meta( "{$prefix}family_name" );
-    }
-    if ( $column_name == "{$prefix}display_name" ) {
+	}
+	if ( $column_name == "{$prefix}display_name" ) {
 		echo rwmb_meta( "{$prefix}display_name" );
-    }
+	}
 }
 
 function pubwp_print_person_fullname( $id ) {
 // Prints a persons full name using display name is present, or GivenName FamilyName if not.
 // Wraps name in schema.org property terms name, givenName, familyName
-    $prefix = '_pubwp_person_';
-    $args = array();
-    $family_name = esc_html( rwmb_meta( "{$prefix}family_name", $args, $post_id = $id) );
-    $given_name = esc_html( rwmb_meta( "{$prefix}given_name", $args, $post_id = $id) );
-    $display_name = esc_html( rwmb_meta( "{$prefix}display_name", $args, $post_id = $id) );
+	$prefix = '_pubwp_person_';
+	$args = array();
+	$family_name = esc_html( rwmb_meta( "{$prefix}family_name", $args, $post_id = $id) );
+	$given_name = esc_html( rwmb_meta( "{$prefix}given_name", $args, $post_id = $id) );
+	$display_name = esc_html( rwmb_meta( "{$prefix}display_name", $args, $post_id = $id) );
 	$url_arr = rwmb_meta( "{$prefix}uri", $args, $post_id = $id );
 
-    if ( $display_name ) {
+	if ( ! empty( $display_name ) ) {
 		echo '<span property ="name">'.$display_name.'</span>';
 		if ( $url_arr ) {
 			foreach ($url_arr as $url)
 				echo '<link property ="url" href="'.$url.'" />';
 		}
-	} elseif ( $family_name || $given_name ) {
+	} elseif ( ( ! empty( $family_name)) || ( ! empty( $given_name ) ) ) {
 		echo '<span property ="name">';
 		echo '<span property ="givenName">'.$given_name.'</span> ';
 		echo '<span property ="familyName">'.$family_name.'</span>';
@@ -162,7 +125,7 @@ function pubwp_print_person_fullname( $id ) {
 				echo '<link property ="url" href="'.$url.'" />';
 		}
 		echo '</span>';
-    } else {
+	} else {
 		echo 'anon';
 	}
 }
@@ -170,18 +133,18 @@ function pubwp_print_person_fullname( $id ) {
 function pubwp_person_fullname( $id ) {
 // Prints a persons full name using display name is present, or GivenName FamilyName if not.
 // Wraps name in schema.org property terms name, givenName, familyName
-    $prefix = '_pubwp_person_';
-    $args = array();
-    $family_name = esc_html( rwmb_meta( "{$prefix}family_name", $args, $post_id = $id) );
-    $given_name = esc_html( rwmb_meta( "{$prefix}given_name", $args, $post_id = $id) );
-    $display_name = esc_html( rwmb_meta( "{$prefix}display_name", $args, $post_id = $id) );
+	$prefix = '_pubwp_person_';
+	$args = array();
+	$family_name = esc_html( rwmb_meta( "{$prefix}family_name", $args, $post_id = $id) );
+	$given_name = esc_html( rwmb_meta( "{$prefix}given_name", $args, $post_id = $id) );
+	$display_name = esc_html( rwmb_meta( "{$prefix}display_name", $args, $post_id = $id) );
 	$url_arr = rwmb_meta( "{$prefix}uri", $args, $post_id = $id );
 
-    if ( $display_name ) {
+	if ( ! empty( $display_name) ) {
 		return $display_name;
-	} elseif ( $family_name || $given_name ) {
+	} elseif ( ( ! empty( $family_name ) ) || ( ! empty( $given_name ) ) ){
 		return $given_name.' '.$family_name;
-    } else {
+	} else {
 		return 'anon.';
 	}
 }
