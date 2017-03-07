@@ -15,18 +15,18 @@ defined( 'ABSPATH' ) or die( 'Be good. If you can\'t be good be careful' );
 
 add_action( 'init', 'pubwp_create_paper_type' );
 function pubwp_create_paper_type() {
-  register_post_type( 'pubwp_paper',
-    array(
-      'labels' => array(
-        'name' => __( 'Papers', 'pubwp' ),
-        'singular_name' => __( 'Papers', 'pubwp' )
-      ),
-      'public' => true,
-      'has_archive' => true,
-      'rewrite' => array('slug' => 'paper'),
-      'supports' => array('title' ,'revisions' )
-    )
-  );
+	register_post_type( 'pubwp_paper',
+		array(
+			'labels' => array(
+				'name' => __( 'Papers', 'pubwp' ),
+				'singular_name' => __( 'Papers', 'pubwp' )
+			),
+			'public' => true,
+			'has_archive' => true,
+			'rewrite' => array('slug' => 'paper'),
+			'supports' => array('title' ,'revisions' )
+		)
+	);
 }
 
 // commonmeta.php provides a metabox for pubwp_paper which includes
@@ -36,15 +36,15 @@ function pubwp_create_paper_type() {
 // More info @ http://metabox.io/docs/registering-meta-boxes/
 add_filter( 'rwmb_meta_boxes', 'pubwp_register_paper_meta_boxes' );
 function pubwp_register_paper_meta_boxes( $meta_boxes ) {
-    // @param array $meta_boxes List of meta boxes
-    // @return array
+	// @param array $meta_boxes List of meta boxes
+	// @return array
 	$prefix = '_pubwp_paper_';  // prefix of meta keys keys hidden
 
 
 	$meta_boxes[] = array(
 		'id'         => 'pubwp_paper_info',  // Meta box id
 		// Meta box title - Will appear at the drag and drop handle bar. Required.
-        'title'      => __( 'Journal paper information', 'pubwp' ),
+		'title'      => __( 'Journal paper information', 'pubwp' ),
 		'post_types' => array( 'pubwp_paper' ),// Post types that have this metabox
 		'context'    => 'normal',             // Where the meta box appear
 		'priority'   => 'low',               // Order of meta box
@@ -54,32 +54,32 @@ function pubwp_register_paper_meta_boxes( $meta_boxes ) {
 		'fields'     => array(
 			// Journal title as TEXT
 			array(
-				'name'       => __( 'Journal title', 'pubwp' ),
-				'id'         => "{$prefix}journal_title",
+				'name'  => __( 'Journal title', 'pubwp' ),
+				'id'    => "{$prefix}journal_title",
 				'type'  => 'text'
 			),
 			// Journal vol number as NUMBER
 			array(
-				'name'       => __( 'Journal volume', 'pubwp' ),
-				'id'         => "{$prefix}journal_volumen",
+				'name'  => __( 'Journal volume', 'pubwp' ),
+				'id'    => "{$prefix}journal_volumen",
 				'type'  => 'number'
 			),
 			// Journal issue number as NUMBER
 			array(
-				'name'       => __( 'Journal issue', 'pubwp' ),
-				'id'         => "{$prefix}journal_issue",
+				'name'  => __( 'Journal issue', 'pubwp' ),
+				'id'    => "{$prefix}journal_issue",
 				'type'  => 'number'
 			),
 			// Journal page from as NUMBER
 			array(
-				'name'       => __( 'Journal page number, from', 'pubwp' ),
-				'id'         => "{$prefix}journal_page_from",
+				'name'  => __( 'Journal page number, from', 'pubwp' ),
+				'id'    => "{$prefix}journal_page_from",
 				'type'  => 'number'
 			),
 			// Journal page to as NUMBER
 			array(
-				'name'       => __( 'Journal page number, to', 'pubwp' ),
-				'id'         => "{$prefix}journal_page_to",
+				'name'  => __( 'Journal page number, to', 'pubwp' ),
+				'id'    => "{$prefix}journal_page_to",
 				'type'  => 'number'
 			)
 		)
@@ -93,22 +93,39 @@ function pubwp_register_paper_meta_boxes( $meta_boxes ) {
  **/
 function pubwp_print_journal_issue_details( ) {
 	$prefix = '_pubwp_paper_';
-	$ja = False; # Journal name
-	$is = False; # Issue number 
-	$vl = False; # Volume number
-	$sp = False; # Start page
-	$ep = False; # End page
+	$text_args = array('type' => 'text');
+	$num_args = array('type' => 'number');
+	$ja = rwmb_meta("{$prefix}journal_title", $text_args ); # Journal name
+	$is = rwmb_meta("{$prefix}journal_issue", $text_args); # Issue number 
+	$vl = rwmb_meta("{$prefix}journal_volumen", $num_args); # Volume number
+	$sp = rwmb_meta("{$prefix}journal_page_from", $num_args); # Start page
+	$ep = rwmb_meta("{$prefix}journal_page_to", $num_args); # End page
 	
-	if ( ! empty( rwmb_meta("{$prefix}journal_title", 'type = text') ) ) 
-		$ja = rwmb_meta("{$prefix}journal_title", 'type = text');
-	if ( ! empty( rwmb_meta("{$prefix}journal_issue", 'type = text') ) ) 
-		$is = rwmb_meta("{$prefix}journal_issue", 'type = text');
-	if ( ! empty( rwmb_meta("{$prefix}journal_volumen", 'type = number') ) ) 
-		$vl = rwmb_meta("{$prefix}journal_volumen", 'type = number');
-	if ( ! empty( rwmb_meta("{$prefix}journal_page_from", 'type = number') ) ) 
-		$sp = rwmb_meta("{$prefix}journal_page_from", 'type = number');
-	if ( ! empty( rwmb_meta("{$prefix}journal_page_to", 'type = number') ) ) 
-		$ep = rwmb_meta("{$prefix}journal_page_to", 'type = number');
+	if ( empty( $ja ) ) {
+		$ja = false;
+	} else {
+		$ja = esc_html( $ja );
+	}
+	if ( empty( $is ) ) {
+		$is = false;
+	} else {
+		$is = esc_html( $is );
+	}
+	if ( empty( $vl ) ) {
+		$vl = false;
+	} else {
+		$vl = esc_html( $vl );
+	}
+	if ( empty( $sp ) ) {
+		$sp = false;
+	} else {
+		$sp = esc_html( $sp );
+	}
+	if ( empty( $ep ) ) {
+		$ep = false;
+	} else {
+		$ep = esc_html( $ep );
+	}
 		
 	if ($ja) {
 		echo "Ref: <span property='isPartOf' typeof='PublicationIssue'>
@@ -119,37 +136,54 @@ function pubwp_print_journal_issue_details( ) {
 			echo "iss. <span property='issueNumber'>{$is}</span>";
 		if ($sp && $ep) {
 			echo " pp. <span property='pageStart'>{$sp}</span>
-			      - <span property='pageEnd'>{$ep}</span>";
+					- <span property='pageEnd'>{$ep}</span>";
 		} elseif ($sp) {
 			echo " p. <span property='pageStart'>{$sp}</span>";
 		}
 		echo ".</span>";
 	} else {
 		//not much we can do with no journal name -- shouldn't happen!
-		echo('What, no journal data?'); //for debug only
+		echo('No journal data.'); //for debug only
 	}
 }
 
 function pubwp_journal_info( $post ) {
 	$prefix = '_pubwp_paper_';
-	$ja = False; # Journal name
-	$is = False; # Issue number 
-	$vl = False; # Volume number
-	$sp = False; # Start page
-	$ep = False; # End page
+	$text_args = array('type' => 'text');
+	$num_args = array('type' => 'number');
+	$ja = rwmb_meta("{$prefix}journal_title", $text_args, $post->ID ); # Journal name
+	$is = rwmb_meta("{$prefix}journal_issue", $text_args, $post->ID ); # Issue number 
+	$vl = rwmb_meta("{$prefix}journal_volumen", $num_args, $post->ID ); # Volume number
+	$sp = rwmb_meta("{$prefix}journal_page_from", $num_args, $post->ID ); # Start page
+	$ep = rwmb_meta("{$prefix}journal_page_to", $num_args, $post->ID ); # End page
 	$info = '';
 	
-	if ( ! empty( rwmb_meta("{$prefix}journal_title", 'type = text', $post->ID) ) ) 
-		$ja = esc_html( rwmb_meta("{$prefix}journal_title", 'type = text', $post->ID) );
-	if ( ! empty( rwmb_meta("{$prefix}journal_issue", 'type = text', $post->ID) ) ) 
-		$is = esc_html( rwmb_meta("{$prefix}journal_issue", 'type = text', $post->ID) );
-	if ( ! empty( rwmb_meta("{$prefix}journal_volumen", 'type = number', $post->ID) ) ) 
-		$vl = esc_html( rwmb_meta("{$prefix}journal_volumen", 'type = number', $post->ID) );
-	if ( ! empty( rwmb_meta("{$prefix}journal_page_from", 'type = number', $post->ID) ) ) 
-		$sp = esc_html( rwmb_meta("{$prefix}journal_page_from", 'type = number', $post->ID) );
-	if ( ! empty( rwmb_meta("{$prefix}journal_page_to", 'type = number', $post->ID) ) ) 
-		$ep = esc_html( rwmb_meta("{$prefix}journal_page_to", 'type = number', $post->ID) );
-		
+	if ( empty( $ja ) ) {
+		$ja = false;
+	} else {
+		$ja = esc_html( $ja );
+	}
+	if ( empty( $is ) ) {
+		$is = false;
+	} else {
+		$is = esc_html( $is );
+	}
+	if ( empty( $vl ) ) {
+		$vl = false;
+	} else {
+		$vl = esc_html( $vl );
+	}
+	if ( empty( $sp ) ) {
+		$sp = false;
+	} else {
+		$sp = esc_html( $sp );
+	}
+	if ( empty( $ep ) ) {
+		$ep = false;
+	} else {
+		$ep = esc_html( $ep );
+	}
+
 	if ($ja) {
 		$info = $ja;
 		if ($vl)

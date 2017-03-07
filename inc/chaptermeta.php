@@ -15,18 +15,18 @@ defined( 'ABSPATH' ) or die( 'Be good. If you can\'t be good be careful' );
 
 add_action( 'init', 'pubwp_create_chapter_type' );
 function pubwp_create_chapter_type() {
-  register_post_type( 'pubwp_chapter',
-    array(
-      'labels' => array(
-        'name' => __( 'Chapters', 'pubwp' ),
-        'singular_name' => __( 'Chapters', 'pubwp' )
-      ),
-      'public' => true,
-      'has_archive' => true,
-      'rewrite' => array('slug' => 'chapter'),
-      'supports' => array('title' ,'revisions' )
-    )
-  );
+	register_post_type( 'pubwp_chapter',
+		array(
+			'labels' => array(
+				'name' => __( 'Chapters', 'pubwp' ),
+				'singular_name' => __( 'Chapters', 'pubwp' )
+			),
+			'public' => true,
+			'has_archive' => true,
+			'rewrite' => array('slug' => 'chapter'),
+			'supports' => array('title' ,'revisions' )
+			)
+		);
 }
 
 // commonmeta.php provides a metabox for pubwp_chapter which includes
@@ -107,19 +107,21 @@ function pubwp_register_chapter_meta_boxes( $meta_boxes ) {
 
 function pubwp_print_bookchap_title( ) {
 	$id = '_pubwp_chapter_title'; # field id of abstract
-	$type = 'type = text';       # type of field
-	if ( empty( rwmb_meta( $id, $type ) ) ) {
+	$args = array('type' => 'text'); # type of field
+	$chapter_title = rwmb_meta( $id, $args );
+	if ( empty( $chapter_title ) ) {
 		echo "untitled";
 		return;
 	} else {
-		echo "<span property='name'>".rwmb_meta( $id, $type )."</span>";
+		$chapter_title = esc_html( $chapter_title );
+		echo "<span property='name'>".$chapter_title."</span>";
 	}
 }
 
 function pubwp_bookchap_title( $post ) {
 	$id = '_pubwp_chapter_title'; # field id of abstract
-	$type = 'type = text';       # type of field
-	$title = rwmb_meta( $id, $type, $post->ID );
+	$args = array('type' => 'text'); # type of field
+	$title = rwmb_meta( $id, $args, $post->ID );
 	if ( empty( $title ) ) {
 		return "untitled";
 	} else {
