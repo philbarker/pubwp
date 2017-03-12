@@ -297,7 +297,7 @@ function pubwp_print_local_info( ) {
 				$file_name = 'local copy';
 			}
 			$file_url = esc_url( $file['url']);
-			echo "<a href='{$file_url}'>{$file_name}</a><br>";
+			echo "<a property ='url' href='{$file_url}'>{$file_name}</a><br>";
 			# currently not efficient to calc following info for each file as it is same
 			# however looking forward need some way of giving diffent versions & licences
 			$licence = rwmb_meta( $lc_licence_id, $lc_licence_args);
