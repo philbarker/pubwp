@@ -15,18 +15,18 @@ defined( 'ABSPATH' ) or die( 'Be good. If you can\'t be good be careful' );
 
 add_action( 'init', 'pubwp_create_report_type' );
 function pubwp_create_report_type() {
-  register_post_type( 'pubwp_report',
-    array(
-      'labels' => array(
-        'name' => __( 'Reports', 'pubwp' ),
-        'singular_name' => __( 'Reports', 'pubwp' )
-      ),
-      'public' => true,
-      'has_archive' => true,
-      'rewrite' => array('slug' => 'report'),
-      'supports' => array('title' ,'revisions' )
-    )
-  );
+	register_post_type( 'pubwp_report',
+		array(
+			'labels' => array(
+					'name' => __( 'Reports', 'pubwp' ),
+					'singular_name' => __( 'Reports', 'pubwp' )
+				),
+		'public' => true,
+		'has_archive' => true,
+		'rewrite' => array('slug' => 'report'),
+		'supports' => array('title' ,'revisions' )
+		)
+	);
 }
 
 // commonmeta.php provides a metabox for pubwp_report which includes
@@ -36,15 +36,15 @@ function pubwp_create_report_type() {
 // More info @ http://metabox.io/docs/registering-meta-boxes/
 add_filter( 'rwmb_meta_boxes', 'pubwp_register_report_meta_boxes' );
 function pubwp_register_report_meta_boxes( $meta_boxes ) {
-    // @param array $meta_boxes List of meta boxes
-    // @return array
+	// @param array $meta_boxes List of meta boxes
+	// @return array
 	$prefix = '_pubwp_report_';  // prefix of meta keys keys hidden
 
 
 	$meta_boxes[] = array(
 		'id'         => 'pubwp_report_info',  // Meta box id
 		// Meta box title - Will appear at the drag and drop handle bar. Required.
-        'title'      => __( 'Report information', 'pubwp' ),
+		'title'      => __( 'Report information', 'pubwp' ),
 		'post_types' => array( 'pubwp_report' ),// Post types that have this metabox
 		'context'    => 'normal',             // Where the meta box appear
 		'priority'   => 'low',               // Order of meta box
@@ -82,21 +82,22 @@ function pubwp_register_report_meta_boxes( $meta_boxes ) {
 
 function pubwp_print_report_series( ) {
 	$id = '_pubwp_report_series'; # field id of series name
-	$type = 'type = text';       # type of field
-	if ( empty( rwmb_meta( $id, $type ) ) ) {
+	$args = array('type' => 'text');       # type of field
+	$series = rwmb_meta( $id, $args );
+	if ( empty( $series ) ) {
 		return; # no code, no problem.
 	} else {
-		echo esc_html( rwmb_meta( $id, $type ) );
+		echo esc_html( $series );
 	}
 }
 
 function pubwp_print_report_publisher( ) {
 	$id = '_pubwp_report_publisher'; # field id of authors
-	$type = 'type = post';               # type of field
-	if ( empty( rwmb_meta($id, $type) ) ) {
+	$args = array('type' => 'post'); # type of field
+	$publisher = rwmb_meta($id, $args);
+	if ( empty( $publisher ) ) {
 		return; # no publisher info, no problem
 	} else {
-		$publisher = rwmb_meta($id, $type);
 		echo "published by: <span property='publisher' typeof='Organization'>";
 	 	pubwp_print_organization_info( $publisher );		
 		echo "</span>";
@@ -106,27 +107,26 @@ function pubwp_print_report_publisher( ) {
 
 function pubwp_print_report_code( ) {
 	$id = '_pubwp_report_code'; # field id of series name
-	$type = 'type = text';       # type of field
-	if ( empty( rwmb_meta( $id, $type ) ) ) {
+	$args = array('type' => 'text');       # type of field
+	$code = rwmb_meta( $id, $args );
+	if ( empty( $code ) ) {
 		return; # no code, no problem.
 	} else {
-		echo esc_html( rwmb_meta( $id, $type ) );
+		echo esc_html( $code );
 	}
 }
 
 function pubwp_report_info( $post ) {
 	$report_info = '';
 	$post_id = $post->ID;
-	$id = '_pubwp_report_series'; # field id of series name
-	$type = 'type = text';       # type of field
-	if ( ! empty( rwmb_meta( $id, $type, $post_id) ) ) {
-		 $report_info = $report_info.rwmb_meta( $id, $type, $post_id ) ;
+	$args = array('type' => 'text');       # type of field
+	$series = rwmb_meta( '_pubwp_report_series', $args, $post_id);
+	if ( ! empty( $series ) ) {
+		 $report_info = $report_info.$series ;
 	}
-	$id = '_pubwp_report_code'; # field id of series name
-	$type = 'type = text';       # type of field
-	if ( ! empty( rwmb_meta( $id, $type, $post_id) ) ) {
-		 $report_info = $report_info.' no. '.rwmb_meta( $id, $type, $post_id ) ;
+	$code = rwmb_meta( '_pubwp_report_code', $args, $post_id);
+	if ( ! empty( $code ) ) {
+		 $report_info = $report_info.' no. '.$code ;
 	}
-	return $report_info;
-	
+	return esc_html($report_info);
 }
