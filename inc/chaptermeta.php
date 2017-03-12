@@ -105,6 +105,7 @@ function pubwp_register_chapter_meta_boxes( $meta_boxes ) {
 	return $meta_boxes;
 }
 
+
 function pubwp_print_bookchap_title( ) {
 	$id = '_pubwp_chapter_title'; # field id of abstract
 	$args = array('type' => 'text'); # type of field
