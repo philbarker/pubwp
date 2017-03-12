@@ -84,20 +84,30 @@ function pubwp_register_person_meta_boxes( $meta_boxes ) {
 	return $meta_boxes;
 }
 
-
-
-add_action( 'manage_pubwp_person_posts_custom_column', 'pubwp_person_table_content', 10, 2 );
-function pubwp_person_table_content( $column_name, $post_id ) {
-	$prefix = '_pubwp_person_';  // prefix of meta keys keys hidden
-	if ( $column_name == "{$prefix}given_name" ) {
-		echo rwmb_meta( "{$prefix}given_name" );
+// Person custom post type does not support title, but do need a title to display
+// in selection boxes when linking to an person from another post.
+add_filter( 'wp_insert_post_data', 'pubwp_modify_person_title', 99, 1 );
+function pubwp_modify_person_title( $data ) {
+	$prefix = '_pubwp_person_';
+	$display_name = '';
+	$given_name = '';
+	$family_name = '';
+	if ( isset($_POST['post_type'])  && ('pubwp_person' == $_POST['post_type'])) {
+		if (isset($_POST["{$prefix}display_name"]))
+			$display_name = $_POST["{$prefix}display_name"];
+		if (isset($_POST["{$prefix}given_name"]))
+			$given_name = $_POST["{$prefix}given_name"];
+		if (isset($_POST["{$prefix}family_name"]))
+			$family_name = $_POST["{$prefix}family_name"];
+		if ($display_name != '') {
+			$data['post_title'] = $display_name;
+		} elseif (($given_name != '') ||  ($family_name != '')) {
+			$data['post_title'] = $given_name.' '.$family_name;
+		} else {
+			$data['post_title'] = 'Any mouse';
+		}
 	}
-	if ( $column_name == "{$prefix}family_name" ) {
-		echo rwmb_meta( "{$prefix}family_name" );
-	}
-	if ( $column_name == "{$prefix}display_name" ) {
-		echo rwmb_meta( "{$prefix}display_name" );
-	}
+	return $data;
 }
 
 function pubwp_print_person_fullname( $id ) {
