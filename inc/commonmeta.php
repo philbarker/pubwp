@@ -127,30 +127,32 @@ function pubwp_register_common_meta_boxes( $meta_boxes ) {
 }
 
 // set the date of the post to the date of publication of resource.
-//add_filter( 'wp_insert_post_data', 'pubwp_modify_post_date', 99, 1 );
-function pubwp_modify_post_date( $data ) {
-	if ( isset($_POST['post_type'])  && ('pubwp_book' == $_POST['post_type'])) {
+add_filter( 'wp_insert_post_data', 'pubwp_modify_post_date', 99, 2 );
+function pubwp_modify_post_date( $data, $postarr ) {
+	$args = array('_builtin' => False);
+	$custom_post_types = get_post_types( $args, 'names', 'and' );
+	if ( isset($_POST['post_type'])  && (in_array( $_POST['post_type'], $custom_post_types))) {
 		$id = '_pubwp_common_date_published'; # field id of pub date
-		$args = array('type' => 'date');      # type of field
-		$publication_date = rwmb_meta($id, $args);
+		if (isset($_POST[$id]))
+			$publication_date = $_POST[$id];
 		if (!empty($publication_date) ) {
 			$publication_year = explode( '-', $publication_date )[0];
 			$publication_month = explode( '-', $publication_date )[1];
 			$publication_day = explode( '-', $publication_date )[2];
 			if ( empty($publication_year) ) {
-				$publication_month = 1;
+				$publication_year = '1970';
 			}
 			if (empty($publication_month)) {
-				$publication_month = 1;
+				$publication_month = '01';
 			}
 			if (empty($publication_day)) {
-				$publication_month = 1;
+				$publication_day = '01';
 			}
 			$publication_date = "{$publication_year}-{$publication_month}-{$publication_day}";
-			if (false) {
+			if ( wp_checkdate( $publication_month, $publication_day, $publication_year, $publication_date ) ) {
 				$data['post_date'] = $publication_date;
 			} else {
-				$data['post_date'] = '2012-01-01';
+				$data['post_date'] = '1970-01-01';
 			}
 		} 
 	}
