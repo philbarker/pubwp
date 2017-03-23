@@ -23,7 +23,7 @@ function pubwp_create_book_type() {
 			),
 			'public' => true,
 			'has_archive' => true,
-			'rewrite' => array('slug' => 'book'),
+			'rewrite' => array('slug' => 'books'), 
 			'supports' => array('title' ,'revisions' )
 		)
 	);

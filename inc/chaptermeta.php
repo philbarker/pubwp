@@ -23,7 +23,7 @@ function pubwp_create_chapter_type() {
 			),
 			'public' => true,
 			'has_archive' => true,
-			'rewrite' => array('slug' => 'chapter'),
+			'rewrite' => array('slug' => 'chapters'),
 			'supports' => array('title' ,'revisions' )
 			)
 		);

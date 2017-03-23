@@ -23,7 +23,7 @@ function pubwp_create_paper_type() {
 			),
 			'public' => true,
 			'has_archive' => true,
-			'rewrite' => array('slug' => 'paper'),
+			'rewrite' => array('slug' => 'publications'),
 			'supports' => array('title' ,'revisions' )
 		)
 	);

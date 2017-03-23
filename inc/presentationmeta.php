@@ -25,7 +25,7 @@ function pubwp_create_presentation_type() {
 			),
 		'public' => true,
 		'has_archive' => true,
-		'rewrite' => array('slug' => 'presentation'),
+		'rewrite' => array('slug' => 'presentations'),
 		'supports' => array('title' ,'revisions' )
 		)
 	);

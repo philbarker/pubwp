@@ -23,7 +23,7 @@ function pubwp_create_report_type() {
 				),
 		'public' => true,
 		'has_archive' => true,
-		'rewrite' => array('slug' => 'report'),
+		'rewrite' => array('slug' => 'reports'),
 		'supports' => array('title' ,'revisions' )
 		)
 	);
