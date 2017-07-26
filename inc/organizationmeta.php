@@ -23,7 +23,8 @@ function pubwp_create_organization_type() {
 			'has_archive' => False,
 			'exclude_from_search' => True,
 			'rewrite' => array('slug' => 'organization'),
-			'supports' => array('revisions' )
+			'supports' => array('revisions' ),
+			'menu_icon' => 'dashicons-groups'
 		)
 	);
 }

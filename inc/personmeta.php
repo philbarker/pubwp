@@ -24,7 +24,8 @@ function pubwp_create_person_type() {
 			'has_archive' => False,
 			'exclude_from_search' => True,
 			'rewrite' => array('slug' => 'person'),
-			'supports' => array('revisions' )
+			'supports' => array('revisions' ),
+			'menu_icon' => 'dashicons-businessman'
 		)
 	);
 }
