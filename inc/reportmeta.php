@@ -26,7 +26,7 @@ function pubwp_create_report_type() {
 		'rewrite' => array('slug' => 'reports'),
 		'supports' => array('title' ,'revisions', 'thumbnail' ),
 		'menu_icon' => 'dashicons-media-document',
-		'query_var' => 'publication'
+		'pubwp_type' => 'publication'
 		)
 	);
 }

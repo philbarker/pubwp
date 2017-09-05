@@ -28,7 +28,7 @@ function pubwp_create_presentation_type() {
 		'rewrite' => array('slug' => 'presentations'),
 		'supports' => array('title' ,'revisions', 'thumbnail' ),
 		'menu_icon' => 'dashicons-media-interactive',
-	    'query_var' => 'publication'
+		'pubwp_type' => 'publication'
 		)
 	);
 }
