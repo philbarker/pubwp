@@ -24,7 +24,7 @@ function pubwp_create_paper_type() {
 			'public' => true,
 			'has_archive' => true,
 			'rewrite' => array('slug' => 'publications'),
-			'supports' => array('title' ,'revisions' ),
+			'supports' => array('title' ,'revisions', 'thumbnails' ),
 			'menu_icon' => 'dashicons-media-text',
 			'query_var' => 'publication'
 		)
