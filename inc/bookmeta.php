@@ -25,7 +25,8 @@ function pubwp_create_book_type() {
 			'has_archive' => true,
 			'rewrite' => array('slug' => 'books'), 
 			'supports' => array('title' ,'revisions' ),
-			'menu_icon' => 'dashicons-book-alt'
+			'menu_icon' => 'dashicons-book-alt',
+			'query_var' => 'publication'
 		)
 	);
 }

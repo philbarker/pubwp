@@ -27,7 +27,8 @@ function pubwp_create_presentation_type() {
 		'has_archive' => true,
 		'rewrite' => array('slug' => 'presentations'),
 		'supports' => array('title' ,'revisions' ),
-		'menu_icon' => 'dashicons-media-interactive'
+		'menu_icon' => 'dashicons-media-interactive',
+	    'query_var' => 'publication'
 		)
 	);
 }

@@ -25,7 +25,8 @@ function pubwp_create_paper_type() {
 			'has_archive' => true,
 			'rewrite' => array('slug' => 'publications'),
 			'supports' => array('title' ,'revisions' ),
-			'menu_icon' => 'dashicons-media-text'
+			'menu_icon' => 'dashicons-media-text',
+			'query_var' => 'publication'
 		)
 	);
 }
