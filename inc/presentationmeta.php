@@ -26,7 +26,7 @@ function pubwp_create_presentation_type() {
 		'public' => true,
 		'has_archive' => true,
 		'rewrite' => array('slug' => 'presentations'),
-		'supports' => array('title' ,'revisions', 'thumbnails' ),
+		'supports' => array('title' ,'revisions', 'thumbnail' ),
 		'menu_icon' => 'dashicons-media-interactive',
 	    'query_var' => 'publication'
 		)

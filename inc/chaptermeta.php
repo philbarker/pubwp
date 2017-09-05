@@ -24,7 +24,7 @@ function pubwp_create_chapter_type() {
 			'public' => true,
 			'has_archive' => true,
 			'rewrite' => array('slug' => 'chapters'),
-			'supports' => array('title' ,'revisions', 'thumbnails' ),
+			'supports' => array('title' ,'revisions', 'thumbnail' ),
 			'menu_icon' => plugins_url( 'pubwp' ) . '/inc/icons/book-chap.svg',
 			'query_var' => 'publication'
 			)			

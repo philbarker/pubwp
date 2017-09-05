@@ -24,7 +24,7 @@ function pubwp_create_report_type() {
 		'public' => true,
 		'has_archive' => true,
 		'rewrite' => array('slug' => 'reports'),
-		'supports' => array('title' ,'revisions', 'thumbnails' ),
+		'supports' => array('title' ,'revisions', 'thumbnail' ),
 		'menu_icon' => 'dashicons-media-document',
 		'query_var' => 'publication'
 		)

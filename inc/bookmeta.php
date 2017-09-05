@@ -24,7 +24,7 @@ function pubwp_create_book_type() {
 			'public' => true,
 			'has_archive' => true,
 			'rewrite' => array('slug' => 'books'), 
-			'supports' => array('title' ,'revisions', 'thumbnails'),
+			'supports' => array('title' ,'revisions', 'thumbnail'),
 			'menu_icon' => 'dashicons-book-alt',
 			'query_var' => 'publication'
 		)
