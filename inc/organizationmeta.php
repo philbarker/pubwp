@@ -114,7 +114,7 @@ function pubwp_print_organization_info( $id ) {
 }
 
 function pubwp_organization_info( $id ) {
-// Prints information about organization, wrapped up in RDFa typeof schema:Organization
+// returns information about organization, as can be used for citation
 	$args = array();
 	$name = esc_html( rwmb_meta( "_pubwp_organization_name", $args, $post_id = $id ) );
 	$location_arr = rwmb_meta( "_pubwp_organization_location", $args, $post_id = $id );
@@ -122,11 +122,11 @@ function pubwp_organization_info( $id ) {
 	if (! $name ) {
 		return false; # no publisher info, no problem
 	} else {
-		$organization_info = esc_html( $name );
 		foreach ($location_arr as $location) {
 			$location = esc_html( $location );
 			$organization_info = $organization_info.' '.$location;
 		}
+		$organization_info = $organization_info.': '.esc_html( $name );
 		return $organization_info;
 	}
 }

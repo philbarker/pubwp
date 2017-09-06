@@ -187,15 +187,15 @@ function pubwp_journal_info( $post ) {
 	}
 
 	if ($ja) {
-		$info = $ja;
+		$info = "<span class='pubwp-ref-journal'>".$ja."</span>";
 		if ($vl)
-			$info = $info.' '.$vl;
+			$info = $info.', '."<span class='pubwp-ref-vol'>".$vl."</span>";
 		if ($is)
 			$info = $info.'('.$is.')';
 		if ($sp && $ep) {
-			$info = $info." pp. {$sp}-{$ep}";
+			$info = $info.", pp. {$sp}-{$ep}";
 		} elseif ($sp) {
-			$info = $info." p. {$sp}";
+			$info = $info.", p. {$sp}";
 		}
 		return $info;
 	} else {

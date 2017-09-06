@@ -118,8 +118,19 @@ function pubwp_print_report_code( ) {
 	}
 }
 
+function pubwp_report_publisher( $post ) {
+	$id = '_pubwp_report_publisher'; # field id of publisher
+	$args = array('type' => 'post');  # type of field
+	$publisher = rwmb_meta($id, $args, $post->ID);
+	if ( empty( $publisher )) {
+		return false; # no publisher info, no problem
+	} else {
+	 	return pubwp_organization_info( $publisher );
+	}
+ }
+
 function pubwp_report_info( $post ) {
-	$report_info = '';
+	$report_info = '(';
 	$post_id = $post->ID;
 	$args = array('type' => 'text');       # type of field
 	$series = rwmb_meta( '_pubwp_report_series', $args, $post_id);
@@ -129,6 +140,11 @@ function pubwp_report_info( $post ) {
 	$code = rwmb_meta( '_pubwp_report_code', $args, $post_id);
 	if ( ! empty( $code ) ) {
 		 $report_info = $report_info.' no. '.$code ;
+	}
+	$report_info = $report_info.').';
+	$publisher = rwmb_meta( '_pubwp_report_publisher', $args, $post_id);
+	if ( ! empty( $publisher ) ) {
+		$report_info = $report_info.' '.pubwp_report_publisher( $post );
 	}
 	return esc_html($report_info);
 }

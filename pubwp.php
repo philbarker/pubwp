@@ -41,29 +41,28 @@ function edit_screen_title() {
 function pubwp_citation( $post ) {
 	$url = esc_url( get_permalink( $post->ID ) );
 	$title = esc_html( $post->post_title );
-	$linked_title = "<a href='{$url}'>{$title}</a>";
 	$author_names = pubwp_author_names( $post );
 	$year = esc_html( pubwp_year( $post ) );
-	$citation = $author_names.' ('.$year.') '.$linked_title.'. ';
 	if ('pubwp_book' == $post->post_type) {
-		$citation = $citation.' '.pubwp_publisher( $post );
-		if ( pubwp_isbns( $post ) ) {
-			foreach  (pubwp_isbns( $post ) as $isbn ) {
-				$isbn = esc_html ($isbn );
-				$citation = $citation.'<br />ISBN: '.$isbn;
-			}
-		}
+		$linked_title = "<a href='{$url}' class='pubwp-ref-booktitle'>{$title}</a>.";
+		$moreinfo = pubwp_book_info( $post );
 	} elseif ('pubwp_report' == $post->post_type) {
-		$citation = $citation.' ('.pubwp_report_info( $post ).').';
+		$linked_title = "<a href='{$url}' class='pubwp-ref-reporttitle'>{$title}</a>";
+		$moreinfo  =' '.pubwp_report_info( $post );
 	} elseif ('pubwp_presentation' == $post->post_type) {
-		$citation = $citation.' '.pubwp_presentation_info( $post ).'.';
+		$linked_title = "<a href='{$url}' class='pubwp-ref-presentationtitle'>{$title}</a>.";
+		$moreinfo  = ' '.pubwp_presentation_info( $post );
 	} elseif ('pubwp_chapter' == $post->post_type) {
-		$citation = $citation.' In '.pubwp_chapter_info( $post ).'.';
+		$linked_title = "<a href='{$url}' class='pubwp-ref-title'>{$title}</a>.";
+		$moreinfo  = ' In '.pubwp_chapter_info( $post );
 	} elseif ('pubwp_paper' == $post->post_type) {
-		$citation = $citation.' '.pubwp_journal_info( $post ).'.';
+		$linked_title = "<a href='{$url}' class='pubwp-ref-title'>{$title}</a>.";
+		$moreinfo  = ' '.pubwp_journal_info( $post );
 	}
+	$citation = $author_names.' ('.$year.'). '.$linked_title;
+	$citation = $citation.$moreinfo.'.';
 	if ( pubwp_linked_doi( $post ) ) {
-		$citation = $citation.'<br />DOI: '.pubwp_linked_doi( $post );
+		$citation = $citation.' DOI: '.pubwp_linked_doi( $post );
 	}
 	if ( pubwp_linked_uri( $post ) ) {
 		foreach ( pubwp_linked_uri( $post ) as $linked_url ) {

@@ -126,3 +126,15 @@ function pubwp_publisher( $post ) {
 	}
  }
  
+ function pubwp_book_info( $post ) {
+	$book_info = '';
+	$post_id = $post->ID;
+	$book_info = $book_info.' '.pubwp_publisher( $post );
+	if ( pubwp_isbns( $post ) ) {
+		foreach  (pubwp_isbns( $post ) as $isbn ) {
+			$isbn = esc_html ($isbn );
+			$book_info = $book_info.'. <br />ISBN: '.$isbn;
+		}
+	}
+	return $book_info;
+}
