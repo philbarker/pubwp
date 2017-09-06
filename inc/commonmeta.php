@@ -130,23 +130,31 @@ function pubwp_register_common_meta_boxes( $meta_boxes ) {
 add_filter( 'wp_insert_post_data', 'pubwp_modify_post_date', 99, 2 );
 function pubwp_modify_post_date( $data, $postarr ) {
 	$args = array('_builtin' => False);
+	$publication_day = '01';
+	$publication_month = '01';
+	$publication_year = '1970';
+	$publication_date = '1970-01-01';
 	$custom_post_types = get_post_types( $args, 'names', 'and' );
 	if ( isset($_POST['post_type'])  && (in_array( $_POST['post_type'], $custom_post_types))) {
 		$id = '_pubwp_common_date_published'; # field id of pub date
 		if (isset($_POST[$id]))
 			$publication_date = $_POST[$id];
 		if (!empty($publication_date) ) {
-			$publication_year = explode( '-', $publication_date )[0];
-			$publication_month = explode( '-', $publication_date )[1];
-			$publication_day = explode( '-', $publication_date )[2];
-			if ( empty($publication_year) ) {
-				$publication_year = '1970';
+			$date_arr = explode( '-', $publication_date);
+			if (count($date_arr) > 2) {
+				$publication_day = $date_arr[2];
+			} else {
+				$publication_day = '01';
 			}
-			if (empty($publication_month)) {
+			if (count($date_arr) > 1) {
+				$publication_month = $date_arr[1];
+			} else {
 				$publication_month = '01';
 			}
-			if (empty($publication_day)) {
-				$publication_day = '01';
+			if (count($date_arr) > 0) {
+				$publication_year = $date_arr[0];
+			} else {
+				$publication_year = '1970';
 			}
 			$publication_date = "{$publication_year}-{$publication_month}-{$publication_day}";
 			if ( wp_checkdate( $publication_month, $publication_day, $publication_year, $publication_date ) ) {
@@ -154,7 +162,9 @@ function pubwp_modify_post_date( $data, $postarr ) {
 			} else {
 				$data['post_date'] = '1970-01-01';
 			}
-		} 
+#		} else {
+#				$data['post_date'] = '1970-01-01';
+		}
 	}
 	return $data;
 }
