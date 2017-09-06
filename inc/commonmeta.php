@@ -162,8 +162,8 @@ function pubwp_modify_post_date( $data, $postarr ) {
 			} else {
 				$data['post_date'] = '1970-01-01';
 			}
-#		} else {
-#				$data['post_date'] = '1970-01-01';
+		} else {
+				$data['post_date'] = '1970-01-01';
 		}
 	}
 	return $data;
