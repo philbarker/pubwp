@@ -104,7 +104,7 @@ function pubwp_print_meeting_info( ) {
 		}
 
 	if ($conference_name) {
-		echo "<span property='recordedAt' typeof='Event'>
+		echo "<span property='workFeatured' typeof='Event'>
 		<span property='name'>{$conference_name}</span>";
 		if ($conference_location) { 
 			echo ", <span property='location' typeof='Place'><span property='name'>{$conference_location}</span></span> ";

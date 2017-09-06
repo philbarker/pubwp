@@ -109,7 +109,7 @@ function pubwp_register_chapter_meta_boxes( $meta_boxes ) {
 
 
 function pubwp_print_bookchap_title( ) {
-	$id = '_pubwp_chapter_title'; # field id of abstract
+	$id = '_pubwp_chapter_title'; # field id of title
 	$args = array('type' => 'text'); # type of field
 	$chapter_title = rwmb_meta( $id, $args );
 	if ( empty( $chapter_title ) ) {
@@ -122,7 +122,7 @@ function pubwp_print_bookchap_title( ) {
 }
 
 function pubwp_bookchap_title( $post ) {
-	$id = '_pubwp_chapter_title'; # field id of abstract
+	$id = '_pubwp_chapter_title'; # field id of title
 	$args = array('type' => 'text'); # type of field
 	$title = rwmb_meta( $id, $args, $post->ID );
 	if ( empty( $title ) ) {

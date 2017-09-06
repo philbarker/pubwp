@@ -131,11 +131,12 @@ function pubwp_print_journal_issue_details( ) {
 		
 	if ($ja) {
 		echo "Ref: <span property='isPartOf' typeof='PublicationIssue'>
-				<span property='name'>{$ja}</span>, ";
+				<span property='name' class='pubwp-ref-journal'>{$ja}</span>, ";
 		if ($vl)
-			echo "vol. <span property='volumeNumber'>{$vl}</span> ";
+			echo "<span property='volumeNumber' class='pubwp-ref-vol'>
+				{$vl}</span> ";
 		if ($is)
-			echo "iss. <span property='issueNumber'>{$is}</span>";
+			echo "(<span property='issueNumber'>{$is}</span>)";
 		if ($sp && $ep) {
 			echo " pp. <span property='pageStart'>{$sp}</span>
 					- <span property='pageEnd'>{$ep}</span>";

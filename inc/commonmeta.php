@@ -281,7 +281,7 @@ function pubwp_print_uri( $br=False ) {
 	} else {
 		foreach ($uri_arr as $uri) {
 			$uri = esc_url( $uri );
-			echo "URL: <a property='url' href='{$uri}'>{$uri}</a> ";
+			echo "URL:&nbsp;<a property='url' href='{$uri} 'class='pubwp-uri'>{$uri}</a> ";
 			if ($br)
 				echo "<br />";
 		}
@@ -298,7 +298,7 @@ function pubwp_linked_uri( $post ) {
 		$linked_uri_arr = array();
 		foreach ($uri_arr as $uri) {
 			$uri = esc_url( $uri );
-			$linked_uri = "<a href='{$uri}'>{$uri}</a>";
+			$linked_uri = "<a href='{$uri}' class='pubwp-uri'>{$uri}</a>";
 			$linked_uri_arr[] = $linked_uri;
 		}
 	return $linked_uri_arr;
