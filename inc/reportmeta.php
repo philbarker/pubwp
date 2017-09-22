@@ -100,7 +100,7 @@ function pubwp_print_report_publisher( ) {
 	if ( empty( $publisher ) ) {
 		return; # no publisher info, no problem
 	} else {
-		echo "published by: <span property='publisher' typeof='Organization'>";
+		echo "Published by: <span property='publisher' typeof='Organization'>";
 	 	pubwp_print_organization_info( $publisher );		
 		echo "</span>";
 	}

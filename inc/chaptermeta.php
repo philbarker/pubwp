@@ -217,7 +217,7 @@ function pubwp_print_bookchap_isbn( $br=False ) {
 		$isbns = rwmb_meta($id, $type);
 		foreach ($isbns as $isbn) {
 			$isbn = esc_html( $isbn );
-			echo " ISBN: <span property='isbn'>{$isbn}</span>";
+			echo " ISBN: <span property='isbn'>{$isbn}</span>.";
 			if ($br)
 				echo '</br>';
 		}
