@@ -66,7 +66,7 @@ function pubwp_citation( $post ) {
 	}
 	if ( pubwp_linked_uri( $post ) ) {
 		foreach ( pubwp_linked_uri( $post ) as $linked_url ) {
-			$citation = $citation.'<br />URI: '.$linked_url;
+			$citation = $citation.'<br />URI:&nbsp;'.$linked_url;
 		}
 	}
 	return $citation;
