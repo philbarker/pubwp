@@ -107,7 +107,7 @@ function pubwp_print_report_publisher( ) {
 
 }
 
-function pubwp_print_report_code( $before, $after) {
+function pubwp_print_report_code( $before='', $after='', $br=False) {
 	$id = '_pubwp_report_code'; # field id of series name
 	$args = array('type' => 'text');       # type of field
 	$code = rwmb_meta( $id, $args );
@@ -115,6 +115,7 @@ function pubwp_print_report_code( $before, $after) {
 		return; # no code, no problem.
 	} else {
 		echo esc_html($before.$code.$after);
+		if ( $br ) { echo '<br />'; }
 	}
 }
 
