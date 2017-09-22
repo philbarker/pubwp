@@ -358,12 +358,15 @@ function pubwp_print_local_info( ) {
 	}
 }
 
-function pubwp_print_peer_reviewed( ) {
+function pubwp_print_peer_reviewed($before='', $after='', $br=False) {
 	$id = '_pubwp_common_peer_reviewed'; # field id of peer reviewed
 	$args = array('type' => 'radio');       # type of field	
 	$peer_reviewed = rwmb_meta( $id, $args);
 	if ( ! empty( $peer_reviewed ) )  {
 		$peer_reviewed = esc_html( $peer_reviewed );
-		echo "Peer reviewed? {$peer_reviewed}.";
+		echo $before.$peer_reviewed.$after;
+		if ( $br ) { echo '<br />'; }
+	} else {
+		return;
 	}
 }
