@@ -129,13 +129,14 @@ function pubwp_register_common_meta_boxes( $meta_boxes ) {
 // set the date of the post to the date of publication of resource.
 add_filter( 'wp_insert_post_data', 'pubwp_modify_post_date', 99, 2 );
 function pubwp_modify_post_date( $data, $postarr ) {
-	$args = array('_builtin' => False);
+	$pub_args = array('_builtin' => False,
+				      'pubwp_type' => 'publication');
 	$publication_day = '01';
 	$publication_month = '01';
 	$publication_year = '1970';
 	$publication_date = '1970-01-01';
-	$custom_post_types = get_post_types( $args, 'names', 'and' );
-	if ( isset($_POST['post_type'])  && (in_array( $_POST['post_type'], $custom_post_types))) {
+	$pubwp_post_types = get_post_types( $pub_args, 'names', 'and' );
+	if ( isset($_POST['post_type'])  && (in_array( $_POST['post_type'], $pubwp_post_types))) {
 		$id = '_pubwp_common_date_published'; # field id of pub date
 		if (isset($_POST[$id]))
 			$publication_date = $_POST[$id];
