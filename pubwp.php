@@ -49,9 +49,9 @@ function pubwp_citation( $post ) {
 	} elseif ('pubwp_report' == $post->post_type) {
 		$linked_title = "<a href='{$url}' class='pubwp-ref-reporttitle'>{$title}</a>";
 		$moreinfo  =' '.pubwp_report_info( $post );
-	} elseif ('pubwp_presentation' == $post->post_type) {
-		$linked_title = "<a href='{$url}' class='pubwp-ref-presentationtitle'>{$title}</a>.";
-		$moreinfo  = ' '.pubwp_presentation_info( $post );
+	} elseif ('pubwp_confpaper' == $post->post_type) {
+		$linked_title = "<a href='{$url}' class='pubwp-ref-confpapertitle'>{$title}</a>.";
+		$moreinfo  = ' '.pubwp_confpaper_info( $post );
 	} elseif ('pubwp_chapter' == $post->post_type) {
 		$linked_title = "<a href='{$url}' class='pubwp-ref-title'>{$title}</a>.";
 		$moreinfo  = ' In '.pubwp_chapter_info( $post );
@@ -124,7 +124,8 @@ include_once( $pubwp_dir.'inc/organizationmeta.php' );
 include_once( $pubwp_dir.'inc/bookmeta.php' );
 include_once( $pubwp_dir.'inc/chaptermeta.php' );
 include_once( $pubwp_dir.'inc/reportmeta.php' );
-include_once( $pubwp_dir.'inc/presentationmeta.php' );
+#include_once( $pubwp_dir.'inc/presentationmeta.php' );
+include_once( $pubwp_dir.'inc/conferencemeta.php' );
 include_once( $pubwp_dir.'inc/papermeta.php' );
 include_once( $pubwp_dir.'inc/subjecttaxon.php' );
 include_once( $pubwp_dir.'inc/licencetaxon.php' );
