@@ -146,7 +146,7 @@ function pubwp_print_bookchap_editors( ) {
 		$i = 0;
 		foreach ($editors as $editor) {
 			$i = $i+1;
-			echo '<span property="creator" typeof="person">';
+			echo '<span property="creator" typeof="Person">';
 			pubwp_print_person_fullname( $editor );
 			echo '</span>';
 			if ($i < ($len - 1) ) {
