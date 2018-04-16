@@ -25,6 +25,8 @@ function pubwp_create_person_type() {
 			'exclude_from_search' => True,
 			'rewrite' => array('slug' => 'person'),
 			'supports' => array('revisions' ),
+			'show_in_menu' => 'pubwp.php',
+			'menu_position' => 90,
 			'menu_icon' => 'dashicons-businessman'
 		)
 	);
@@ -59,7 +61,7 @@ function pubwp_register_person_meta_boxes( $meta_boxes ) {
 			),
 			// family name, a text field
 			array(
-				'name'  => __( 'Family name', 'pubwp' ), // Field name - Will be used as label				
+				'name'  => __( 'Family name', 'pubwp' ), // Field name - Will be used as label
 				'id'    => "{$prefix}family_name", // Field ID, i.e. the meta key
 				// Field description (optional)
 				'desc'  => __( 'The family name of the person. See also given name and display name', 'pubwp' ),
@@ -159,4 +161,3 @@ function pubwp_person_fullname( $id ) {
 		return 'anon.';
 	}
 }
-

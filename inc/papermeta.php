@@ -25,6 +25,8 @@ function pubwp_create_paper_type() {
 			'has_archive' => true,
 			'rewrite' => array('slug' => 'publications'),
 			'supports' => array('title' ,'revisions', 'thumbnail' ),
+			'show_in_menu' => 'pubwp.php',
+			'menu_position' => 10,
 			'menu_icon' => 'dashicons-media-text',
 			'pubwp_type' => 'publication'
 		)
@@ -98,11 +100,11 @@ function pubwp_print_journal_issue_details( ) {
 	$text_args = array('type' => 'text');
 	$num_args = array('type' => 'number');
 	$ja = rwmb_meta("{$prefix}journal_title", $text_args ); # Journal name
-	$is = rwmb_meta("{$prefix}journal_issue", $text_args); # Issue number 
+	$is = rwmb_meta("{$prefix}journal_issue", $text_args); # Issue number
 	$vl = rwmb_meta("{$prefix}journal_volumen", $num_args); # Volume number
 	$sp = rwmb_meta("{$prefix}journal_page_from", $num_args); # Start page
 	$ep = rwmb_meta("{$prefix}journal_page_to", $num_args); # End page
-	
+
 	if ( empty( $ja ) ) {
 		$ja = false;
 	} else {
@@ -128,7 +130,7 @@ function pubwp_print_journal_issue_details( ) {
 	} else {
 		$ep = esc_html( $ep );
 	}
-		
+
 	if ($ja) {
 		echo "Ref: <span property='isPartOf' typeof='PublicationIssue'>
 				<span property='name' class='pubwp-ref-journal'>{$ja}</span>, ";
@@ -155,12 +157,12 @@ function pubwp_journal_info( $post ) {
 	$text_args = array('type' => 'text');
 	$num_args = array('type' => 'number');
 	$ja = rwmb_meta("{$prefix}journal_title", $text_args, $post->ID ); # Journal name
-	$is = rwmb_meta("{$prefix}journal_issue", $text_args, $post->ID ); # Issue number 
+	$is = rwmb_meta("{$prefix}journal_issue", $text_args, $post->ID ); # Issue number
 	$vl = rwmb_meta("{$prefix}journal_volumen", $num_args, $post->ID ); # Volume number
 	$sp = rwmb_meta("{$prefix}journal_page_from", $num_args, $post->ID ); # Start page
 	$ep = rwmb_meta("{$prefix}journal_page_to", $num_args, $post->ID ); # End page
 	$info = '';
-	
+
 	if ( empty( $ja ) ) {
 		$ja = false;
 	} else {
@@ -204,4 +206,3 @@ function pubwp_journal_info( $post ) {
 		return false; //for debug only
 	}
 }
-

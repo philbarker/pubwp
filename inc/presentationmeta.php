@@ -1,7 +1,7 @@
 <?php
 
 /**
- * create a custom post type for presentations & register meta boxes for 
+ * create a custom post type for presentations & register meta boxes for
  * conference paper metadata
  **
  * requires: meta box plugin http://metabox.io/
@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) or die( 'Be good. If you can\'t be good be careful' );
 
-// create a custom post type for presentations & register meta boxes for 
+// create a custom post type for presentations & register meta boxes for
 // conference paper metadata
 // see https://codex.wordpress.org/Function_Reference/register_post_type
 // hook it up to init so that it gets called good and early
@@ -28,6 +28,8 @@ function pubwp_create_presentation_type() {
 		'rewrite' => array('slug' => 'presentations'),
 		'supports' => array('title' ,'revisions', 'thumbnail' ),
 		'menu_icon' => 'dashicons-media-interactive',
+    'show_in_menu' => 'pubwp.php',
+    'menu_position' => 30,
 		'pubwp_type' => 'publication'
 		)
 	);
@@ -88,17 +90,17 @@ function pubwp_print_meeting_info( ) {
 	$conference_dates = rwmb_meta( "{$prefix}dates", $args );
 
 	if ( empty( $conference_name ) ) {
-			$conference_name = False; 
+			$conference_name = False;
 		} else {
 			$conference_name = esc_html( $conference_name );
 		}
 	if ( empty( $conference_location ) ) {
-			$conference_location = False; 
+			$conference_location = False;
 		} else {
 			$conference_location = esc_html( $conference_location );
 		}
 	if ( empty( $conference_dates ) ) {
-			$conference_dates = False; 
+			$conference_dates = False;
 		} else {
 			$conference_dates = esc_html( $conference_dates );
 		}
@@ -106,14 +108,14 @@ function pubwp_print_meeting_info( ) {
 	if ($conference_name) {
 		echo "<span property='workFeatured' typeof='Event'>
 		<span property='name'>{$conference_name}</span>";
-		if ($conference_location) { 
+		if ($conference_location) {
 			echo ", <span property='location' typeof='Place'><span property='name'>{$conference_location}</span></span> ";
 		}
 		if ($conference_dates) {
 			echo " ({$conference_dates}).";
 		}
 	echo "</span>";
-	}	
+	}
 }
 
 function pubwp_presentation_info( $post ) {
@@ -123,7 +125,7 @@ function pubwp_presentation_info( $post ) {
 	$conference_location = rwmb_meta( "{$prefix}conference_location", $args, $post->ID );
 	$conference_dates = rwmb_meta( "{$prefix}dates", $args, $post->ID );
 	$presentation_info = '';
-	
+
 	if ( ! empty( $conference_name ) ) {
 			$presentation_info = $presentation_info.'Presented at '.$conference_name;
 	}
@@ -137,6 +139,5 @@ function pubwp_presentation_info( $post ) {
 		return esc_html( $presentation_info );
 	} else {
 		return false;
-	}	
+	}
 }
-

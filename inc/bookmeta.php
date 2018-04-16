@@ -23,8 +23,10 @@ function pubwp_create_book_type() {
 			),
 			'public' => true,
 			'has_archive' => true,
-			'rewrite' => array('slug' => 'books'), 
+			'rewrite' => array('slug' => 'books'),
 			'supports' => array('title' ,'revisions', 'thumbnail'),
+			'show_in_menu' => 'pubwp.php',
+			'menu_position' => 60,
 			'menu_icon' => 'dashicons-book-alt',
 			'pubwp_type' => 'publication'
 		)
@@ -110,11 +112,11 @@ function pubwp_print_publisher( ) {
 		return; # no publisher info, no problem
 	} else {
 		echo "Published by: <span property='publisher' typeof='Organization'>";
-	 	pubwp_print_organization_info( $publisher );		
+	 	pubwp_print_organization_info( $publisher );
 		echo "</span>";
 	}
  }
- 
+
 function pubwp_publisher( $post ) {
 	$id = '_pubwp_book_publisher'; # field id of authors
 	$args = array('type' => 'post');  # type of field
@@ -125,7 +127,7 @@ function pubwp_publisher( $post ) {
 	 	return pubwp_organization_info( $publisher );
 	}
  }
- 
+
  function pubwp_book_info( $post ) {
 	$book_info = '';
 	$post_id = $post->ID;

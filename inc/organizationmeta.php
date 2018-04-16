@@ -24,6 +24,8 @@ function pubwp_create_organization_type() {
 			'exclude_from_search' => True,
 			'rewrite' => array('slug' => 'organization'),
 			'supports' => array('revisions' ),
+			'show_in_menu' => 'pubwp.php',
+			'menu_position' => 80,
 			'menu_icon' => 'dashicons-groups'
 		)
 	);
