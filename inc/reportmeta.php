@@ -26,6 +26,8 @@ function pubwp_create_report_type() {
 		'rewrite' => array('slug' => 'reports'),
 		'supports' => array('title' ,'revisions', 'thumbnail' ),
 		'menu_icon' => 'dashicons-media-document',
+		'show_in_menu' => 'pubwp.php',
+		'menu_position' => 20,
 		'pubwp_type' => 'publication'
 		)
 	);
@@ -101,7 +103,7 @@ function pubwp_print_report_publisher( ) {
 		return; # no publisher info, no problem
 	} else {
 		echo "Published by: <span property='publisher' typeof='Organization'>";
-	 	pubwp_print_organization_info( $publisher );		
+	 	pubwp_print_organization_info( $publisher );
 		echo "</span>";
 	}
 

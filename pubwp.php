@@ -17,7 +17,7 @@ add_action( 'admin_init', 'child_plugin_has_parent_plugin' );
 function child_plugin_has_parent_plugin() {
 	if ( is_admin() && current_user_can( 'activate_plugins' ) &&  !is_plugin_active( 'meta-box/meta-box.php' ) ) {
 		add_action( 'admin_notices', 'child_plugin_notice' );
-		deactivate_plugins( plugin_basename( __FILE__ ) ); 
+		deactivate_plugins( plugin_basename( __FILE__ ) );
 		if ( isset( $_GET['activate'] ) ) {
 			unset( $_GET['activate'] );
 		}
@@ -75,7 +75,7 @@ function pubwp_citation( $post ) {
 function pubwp_by_type ( ) {
 	$args = array('_builtin' => False,
 				  'exclude_from_search' => False);
-	$custom_post_types = get_post_types( $args, 'objects', 'and' );	
+	$custom_post_types = get_post_types( $args, 'objects', 'and' );
 	$query = array( 'posts_per_page' => -1 );
 	foreach ($custom_post_types as $custom_post_type) {
 		$label = esc_html( $custom_post_type->label );
@@ -131,3 +131,8 @@ include_once( $pubwp_dir.'inc/subjecttaxon.php' );
 include_once( $pubwp_dir.'inc/licencetaxon.php' );
 include_once( $pubwp_dir.'inc/commonmeta.php' );
 
+function add_pubwp_menu() {
+  add_menu_page( 'Publications', 'Publications', 'manage_options',
+	               'pubwp.php', 'pubwp_menu', 'dashicons-admin-post', 9);
+}
+add_action('admin_menu', 'add_pubwp_menu');

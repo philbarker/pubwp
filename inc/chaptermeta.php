@@ -25,9 +25,11 @@ function pubwp_create_chapter_type() {
 			'has_archive' => true,
 			'rewrite' => array('slug' => 'chapters'),
 			'supports' => array('title' ,'revisions', 'thumbnail' ),
+			'show_in_menu' => 'pubwp.php',
+			'menu_position' => 50,
 			'menu_icon' => plugins_url( 'pubwp' ) . '/inc/icons/book-chap.svg',
 			'pubwp_type' => 'publication'
-			)			
+			)
 		);
 }
 
@@ -87,7 +89,7 @@ function pubwp_register_chapter_meta_boxes( $meta_boxes ) {
 				'desc'  => __( 'ISBN for the book (you may repeat for different formats but cannot specify which goes with which format, sorry)', 'pubwp' ),
 				'type'  => 'text',
 				'clone' => true,
-			),			
+			),
 			array(
 				'name'  => __( 'DOI', 'pubwp' ),
 				'id'    => "{$prefix}doi",
@@ -207,7 +209,7 @@ function pubwp_bookchap_publisher( $post ) {
 	 	return pubwp_organization_info( $publisher );
 	}
  }
- 
+
 function pubwp_print_bookchap_isbn( $br=False ) {
 	$id = '_pubwp_chapter_isbn'; # field id of ISBN
 	$type = 'type = text';       # type of field
@@ -262,5 +264,3 @@ function pubwp_chapter_info( $post ) {
 	}
 	return esc_html( $info );
 }
-
-
